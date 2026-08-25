@@ -1,0 +1,298 @@
+.section {
+  position: relative;
+  z-index: 5;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 96px 24px 0;
+  text-align: center;
+}
+
+.heading {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(28px, 4vw, 48px);
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--color-white);
+}
+
+.intro {
+  max-width: 780px;
+  margin: 20px auto 0;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-white);
+}
+
+.deck {
+  position: relative;
+  width: min(471px, 100%);
+  height: 507px;
+  margin: 64px auto 0;
+}
+
+.card {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 44px;
+  border-radius: 20px;
+  background: var(--bg);
+  box-shadow: 0 4px 40px rgba(15, 8, 41, 0.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transform: rotate(var(--rotate));
+  transition: transform 0.45s ease, background 0.45s ease;
+}
+
+/*
+ * Deal animation. The front card swings out to the left, arcing 42px down and
+ * rotating counter-clockwise, then travels back and slides in at the BACK of the
+ * deck, taking on the back card's tilt and translucency. z-index drops at the
+ * far-left apex, while the card is clear of the stack, so the return leg passes
+ * behind the other cards. "Prev" plays this in reverse.
+ */
+.dealOut {
+  animation: dealOut 950ms linear forwards;
+}
+
+/*
+ * Prev retraces the same path, but it can't just replay dealOut in reverse: that
+ * starts on the 100% keyframe, so the arriving card would spend its first third
+ * wearing the back-of-deck translucency and the deck would look empty. It stays
+ * solid white and on top the whole way instead, mirroring how next always keeps a
+ * fully visible card on screen.
+ */
+.dealIn {
+  background: #ffffff;
+  z-index: 99;
+  /*
+   * .card carries `transition: background 0.45s`, which would otherwise fade this
+   * card up from the back-of-deck translucency it is leaving behind. The animation
+   * owns the transform, so dropping the transition outright is safe.
+   */
+  transition: none;
+  animation: dealIn 950ms linear forwards;
+}
+
+/* Percentages and easings are dealOut's, mirrored: 100-63 -> 37, 100-67 -> 33. */
+@keyframes dealIn {
+  0% {
+    transform: translate(0, 0) rotate(-14.35deg);
+    animation-timing-function: cubic-bezier(0.8, 0, 0.6, 1);
+  }
+  33% {
+    transform: translate(-113%, var(--deal-drop, 42px)) rotate(-16.33deg);
+  }
+  37% {
+    transform: translate(-113%, var(--deal-drop, 42px)) rotate(-16.33deg);
+    animation-timing-function: cubic-bezier(0.8, 0, 0.05, 1);
+  }
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+}
+
+/*
+ * The outward leg is the Figma transition verbatim: 600ms (63% of 950ms) on its own
+ * easing, -113% across, 42px down, ending at -16.33deg. The apex and return are ours —
+ * Figma has no timing for them, since there the card simply reappears at the back of
+ * the deck in the next variant rather than travelling home.
+ */
+@keyframes dealOut {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    background: #ffffff;
+    z-index: 99;
+    animation-timing-function: cubic-bezier(0.95, 0, 0.2, 1);
+  }
+  63% {
+    transform: translate(-113%, var(--deal-drop, 42px)) rotate(-16.33deg);
+    background: #ffffff;
+    z-index: 99;
+  }
+  67% {
+    transform: translate(-113%, var(--deal-drop, 42px)) rotate(-16.33deg);
+    background: #ffffff;
+    z-index: 0;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  100% {
+    /* Lands exactly on the depth-4 resting style, so removing the class is seamless. */
+    transform: translate(0, 0) rotate(-14.35deg);
+    background: rgba(255, 255, 255, 0.3);
+    z-index: 0;
+  }
+}
+
+/* Copy stays legible on the way out, then clears before the card rejoins the stack. */
+.dealOut .cardContent {
+  animation: dealOutContent 950ms linear forwards;
+}
+
+.dealIn .cardContent {
+  animation: dealOutContent 950ms linear reverse;
+}
+
+/* Holds through the outward leg and the apex (67%), then clears during the return. */
+@keyframes dealOutContent {
+  0%,
+  67% {
+    opacity: 1;
+  }
+  87%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cardContent[data-visible="true"] {
+  opacity: 1;
+}
+
+.icon {
+  width: 57px;
+  height: 57px;
+  margin-bottom: 28px;
+}
+
+.cardTitle {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 1.15;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--color-bg);
+}
+
+.cardDescription {
+  margin-top: 20px;
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 1.4;
+  color: var(--color-bg);
+  opacity: 0.8;
+}
+
+.progressBar {
+  width: 49px;
+  height: 9px;
+  margin-top: 32px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 40px;
+}
+
+.arrow {
+  display: inline-flex;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  transition: transform 0.15s ease;
+}
+
+.arrowPrev img {
+  transform: scaleX(-1);
+}
+
+.arrow:hover {
+  transform: scale(1.08);
+}
+
+.arrow img {
+  width: 37px;
+  height: 37px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+
+  .dealOut,
+  .dealIn {
+    animation: none;
+  }
+}
+
+/* --- mobile (design frame 402px): the whole deck at the design's 0.61 scale --- */
+@media (max-width: 640px) {
+  .section {
+    padding: 74px 24px 0;
+  }
+
+  .heading {
+    font-size: 30px;
+  }
+
+  .intro {
+    max-width: 333px;
+    margin-top: 9px;
+    font-size: 13px;
+  }
+
+  .deck {
+    width: 288px;
+    height: 310px;
+    margin-top: 24px;
+    /* Keeps the deal animation's arc proportional to the smaller card. */
+    --deal-drop: 26px;
+  }
+
+  .card {
+    padding: 29px 27px;
+    border-radius: 12px;
+  }
+
+  .icon {
+    width: 35px;
+    height: 35px;
+    margin-bottom: 17px;
+  }
+
+  .cardTitle {
+    font-size: 16px;
+  }
+
+  .cardDescription {
+    margin-top: 12px;
+    font-size: 11px;
+  }
+
+  .progressBar {
+    width: 30px;
+    height: 6px;
+    margin-top: 20px;
+  }
+
+  .controls {
+    margin-top: 57px;
+    gap: 10px;
+  }
+
+  .arrow img {
+    width: 23px;
+    height: 23px;
+  }
+}

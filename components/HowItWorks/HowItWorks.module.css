@@ -1,0 +1,310 @@
+.section {
+  position: relative;
+  z-index: 5;
+  padding: 96px 24px 120px;
+}
+
+/* Faint measuring grid that sits behind this section in the design. */
+.section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("/images/bg-grid.svg");
+  background-size: cover;
+  background-position: center;
+  pointer-events: none;
+}
+
+.section > * {
+  position: relative;
+  max-width: 1240px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.heading {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(28px, 4vw, 48px);
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--color-white);
+}
+
+.intro {
+  max-width: 620px;
+  margin: 16px auto 0;
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.5;
+  text-align: center;
+  color: var(--color-white);
+  opacity: 0.8;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 462px) minmax(0, 513px);
+  justify-content: center;
+  align-items: center;
+  gap: clamp(24px, 4vw, 64px);
+  margin-top: 56px;
+}
+
+/* ---------- left collage ---------- */
+
+.collage {
+  position: relative;
+  aspect-ratio: 462 / 670;
+}
+
+.greenPanel {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 94.2%;
+  height: 85%;
+  border-radius: 33px;
+  background: var(--color-accent);
+  opacity: 0.6;
+}
+
+/* Rounded rect that clips the photo (Figma "Rectangle 6675"). */
+.personClip {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 94.2%;
+  height: 100%;
+  border-radius: 33px;
+  overflow: hidden;
+}
+
+/* The photo's frame, then the crop inside it — percentages taken from the design. */
+.personBox {
+  position: absolute;
+  left: -3.26%;
+  top: -1.79%;
+  width: 106.5%;
+  height: 110.1%;
+  overflow: hidden;
+}
+
+.personImg {
+  position: absolute;
+  left: -36.87%;
+  top: -33.97%;
+  width: 184.98%;
+  height: 133.97%;
+  max-width: none;
+}
+
+.badge {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  background: rgba(13, 8, 38, 0.2);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.badge img {
+  width: 63%;
+  height: auto;
+}
+
+.badgePhone {
+  left: 4.6%;
+  top: 4.3%;
+  width: 35%;
+  aspect-ratio: 1;
+  border-radius: 32px;
+}
+
+.badgeMessage {
+  right: 0;
+  top: 30.2%;
+  width: 24.5%;
+  aspect-ratio: 1;
+  border-radius: 30px;
+}
+
+.tile {
+  position: absolute;
+  width: 33%;
+  aspect-ratio: 1;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.tile img {
+  object-fit: cover;
+}
+
+.tileMeeting {
+  left: -13.6%;
+  top: 55.7%;
+}
+
+.tileFight {
+  left: 53.9%;
+  top: 85%;
+}
+
+/* ---------- right accordion ---------- */
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.panel {
+  border-radius: 14px;
+  background: rgba(13, 8, 38, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  overflow: hidden;
+}
+
+.panelHeader {
+  display: grid;
+  grid-template-columns: 31px 1fr 22px;
+  align-items: center;
+  gap: 13px;
+  width: 100%;
+  padding: 30px 27px 26px;
+  border: none;
+  background: none;
+  text-align: left;
+}
+
+.stepIcon {
+  width: 31px;
+  height: 31px;
+}
+
+.panelLabels {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stepNumber {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--color-white);
+}
+
+.stepTitle {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--color-white);
+}
+
+/*
+ * The prototype's curve for the whole accordion. It overshoots slightly at both
+ * ends (-0.004 / 1.003), which is what gives the panels their settle.
+ */
+.chevron {
+  width: 22px;
+  height: 12px;
+  opacity: 0.5;
+  transition: transform 1s cubic-bezier(0.945, -0.004, 0.197, 1.003),
+    opacity 1s cubic-bezier(0.945, -0.004, 0.197, 1.003);
+}
+
+.panel[data-open="true"] .chevron {
+  transform: rotate(180deg);
+  opacity: 1;
+}
+
+/*
+ * 0fr -> 1fr collapse. All spacing must live INSIDE the clipped wrapper —
+ * padding on the collapsing element itself keeps the row from reaching zero.
+ */
+.panelBody {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 1s cubic-bezier(0.945, -0.004, 0.197, 1.003);
+}
+
+.panel[data-open="true"] .panelBody {
+  grid-template-rows: 1fr;
+}
+
+.panelBodyInner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.panelBodyInner p {
+  margin: 0 27px 28px 71px;
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.4;
+  color: var(--color-white);
+  opacity: 0.6;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  /*
+   * The design's 325px assumes Futura PT; Poppins sets this label ~90px wider, which
+   * pushed the arrow out past the border. Hold 325px as a floor and let it grow.
+   */
+  min-width: min(325px, 100%);
+  max-width: 100%;
+  /* Hug the content instead of stretching to the steps column. */
+  align-self: flex-start;
+  margin-top: 9px;
+  padding: 10px 11px 10px 23px;
+  border: 1px solid var(--color-accent);
+  border-radius: 446px;
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--color-accent);
+  transition: background 0.15s ease;
+}
+
+.cta:hover {
+  background: rgba(46, 216, 120, 0.1);
+}
+
+.cta img {
+  width: 38px;
+  height: 38px;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: minmax(0, 462px);
+  }
+
+  .collage {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .cta {
+    font-size: 16px;
+  }
+}

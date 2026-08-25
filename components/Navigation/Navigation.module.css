@@ -1,0 +1,72 @@
+.nav {
+  position: sticky;
+  top: 24px;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  width: min(752px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 10px 12px 10px 28px;
+  border-radius: 6px;
+  background: rgba(2, 5, 8, 0.3);
+  backdrop-filter: blur(23px);
+  -webkit-backdrop-filter: blur(23px);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  height: 28px;
+  width: auto;
+}
+
+.phoneButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: var(--color-accent);
+  color: var(--color-bg);
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: filter 0.15s ease;
+}
+
+.phoneButton:hover {
+  filter: brightness(1.08);
+}
+
+/* --- mobile (design frame 402px) --- */
+@media (max-width: 640px) {
+  .nav {
+    width: calc(100% - 64px);
+    gap: 12px;
+    padding: 10px 10px 10px 14px;
+  }
+
+  .logo img {
+    height: 18px;
+  }
+
+  .phoneButton {
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 7px;
+    font-size: 11px;
+  }
+
+  .phoneButton img {
+    width: 16px;
+    height: 16px;
+  }
+}

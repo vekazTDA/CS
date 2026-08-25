@@ -1,0 +1,108 @@
+.section {
+  position: relative;
+  z-index: 5;
+  max-width: 1038px;
+  margin: 0 auto;
+  padding: 96px 24px 64px;
+}
+
+.banner {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  overflow: hidden;
+  border-radius: 12px;
+  padding: 28px 40px;
+  background: var(--color-bg-panel);
+}
+
+.banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 140% 200% at 50% 135%,
+    rgba(15, 8, 41, 0.5),
+    transparent 62%
+  );
+  pointer-events: none;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  max-width: 560px;
+}
+
+.graphic {
+  flex-shrink: 0;
+}
+
+.text {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--color-white);
+}
+
+.button {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 8px 8px 28px;
+  border: 1px solid var(--color-accent);
+  border-radius: 347px;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  white-space: nowrap;
+  transition: background 0.15s ease;
+}
+
+.button:hover {
+  background: rgba(46, 216, 120, 0.1);
+}
+
+/* --- mobile (design frame 402px): the row restacks into a centred column --- */
+@media (max-width: 640px) {
+  .section {
+    max-width: none;
+    padding: 50px 30px 64px;
+  }
+
+  .banner {
+    flex-direction: column;
+    gap: 23px;
+    padding: 33px 24px 26px;
+    border-radius: 7px;
+    text-align: center;
+  }
+
+  .content {
+    flex-direction: column;
+    gap: 23px;
+    max-width: none;
+  }
+
+  .graphic {
+    width: 53px;
+    height: 51px;
+  }
+
+  .text {
+    max-width: 277px;
+    font-size: 17px;
+    line-height: 1.3;
+  }
+}

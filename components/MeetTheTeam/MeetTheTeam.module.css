@@ -1,0 +1,248 @@
+.section {
+  position: relative;
+  z-index: 5;
+  padding: 96px 24px 0;
+  text-align: center;
+}
+
+.heading {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(28px, 4vw, 48px);
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--color-lavender);
+}
+
+.intro {
+  max-width: 840px;
+  margin: 20px auto 0;
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-white);
+  opacity: 0.8;
+}
+
+.team {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: clamp(24px, 6vw, 97px);
+  max-width: 1300px;
+  margin: 72px auto 0;
+  padding: 0;
+  list-style: none;
+}
+
+.member {
+  flex: 0 1 340px;
+  min-width: 0;
+}
+
+/* The centre portrait sits higher than the two flanking it. */
+.member[data-raised="true"] {
+  margin-top: -48px;
+}
+
+.portrait {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #00b478;
+}
+
+/*
+ * Blurred multiply ellipse that sinks the lower half of the circle to deep teal.
+ * Sized to the design's ellipse (1.5x the circle wide, 0.7x tall, centred at 85%),
+ * with soft stops standing in for its 100px gaussian blur.
+ */
+.shade {
+  position: absolute;
+  left: -100%;
+  top: 15%;
+  width: 300%;
+  height: 140%;
+  background: radial-gradient(
+    ellipse 50% 50% at 50% 50%,
+    #283187 0%,
+    rgba(40, 49, 135, 0.88) 42%,
+    rgba(40, 49, 135, 0.4) 70%,
+    transparent 100%
+  );
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.photo {
+  position: absolute;
+  left: var(--photo-left);
+  top: var(--photo-top);
+  width: var(--photo-width);
+  height: var(--photo-height);
+  max-width: none;
+  object-fit: cover;
+  object-position: bottom;
+}
+
+.name {
+  margin-top: 32px;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: clamp(22px, 2vw, 32px);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--color-lavender);
+}
+
+.role {
+  margin-top: 8px;
+  font-family: var(--font-body);
+  font-size: clamp(16px, 1.4vw, 22px);
+  line-height: 1.4;
+  color: var(--color-lavender);
+  opacity: 0.6;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 56px;
+  padding: 10px 11px 10px 23px;
+  border: 1px solid var(--color-accent);
+  border-radius: 446px;
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--color-accent);
+  transition: background 0.15s ease;
+}
+
+.cta:hover {
+  background: rgba(46, 216, 120, 0.1);
+}
+
+.cta img {
+  width: 38px;
+  height: 38px;
+}
+
+@media (max-width: 900px) {
+  .team {
+    flex-wrap: wrap;
+    gap: 48px 24px;
+  }
+
+  .member {
+    flex: 0 1 260px;
+  }
+
+  /* Staggering only reads when the three sit on one row. */
+  .member[data-raised="true"] {
+    margin-top: 0;
+  }
+}
+
+/* Carousel controls exist only at the mobile breakpoint. */
+.controls {
+  display: none;
+}
+
+/*
+ * --- mobile (design frame 402px) ---
+ * The row becomes a one-at-a-time carousel opening on Daniel Cohen. Portraits run
+ * at the design's 0.7 scale (238px circles) and the track steps one pitch
+ * (238px + 20px gap) at a time, keeping the active member centred at x=82.
+ */
+@media (max-width: 640px) {
+  .section {
+    padding: 74px 0 0;
+    overflow: hidden;
+  }
+
+  .heading {
+    padding: 0 24px;
+    font-size: 32px;
+  }
+
+  .intro {
+    max-width: 283px;
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .team {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    max-width: none;
+    margin-top: 27px;
+    gap: 20px;
+    transform: translateX(calc(82px - var(--active, 0) * 258px));
+    transition: transform 0.45s ease;
+  }
+
+  .member,
+  .member[data-raised="true"] {
+    flex: none;
+    width: 238px;
+    margin-top: 0;
+    /* Transform, not margin, so the flanking members keep their full height. */
+    transform: translateY(34px);
+    transition: transform 0.45s ease;
+  }
+
+  .member[data-active="true"] {
+    transform: none;
+  }
+
+  .name {
+    margin-top: 22px;
+    font-size: 22px;
+  }
+
+  .role {
+    margin-top: 4px;
+    font-size: 15px;
+  }
+
+  .controls {
+    display: flex;
+    justify-content: center;
+    gap: 13px;
+    margin-top: 21px;
+  }
+
+  .arrow {
+    display: inline-flex;
+    padding: 0;
+    border: none;
+    background: none;
+    transition: opacity 0.15s ease;
+  }
+
+  .arrow:disabled {
+    opacity: 0.35;
+  }
+
+  .arrowPrev img {
+    transform: scaleX(-1);
+  }
+
+  .arrow img {
+    width: 38px;
+    height: 38px;
+  }
+
+  .cta {
+    margin-top: 32px;
+  }
+}

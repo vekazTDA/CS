@@ -1,0 +1,279 @@
+.gallery {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: clamp(10px, 1.6vw, 24px);
+  max-width: 1160px;
+  margin: 56px auto 0;
+  padding: 0 24px;
+}
+
+.item {
+  position: relative;
+  flex: 1 1 200px;
+  max-width: 220px;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.photoShort {
+  height: 208px;
+}
+
+.photoTall {
+  height: 320px;
+}
+
+.statCard {
+  height: 272px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px 16px;
+}
+
+.photo {
+  object-fit: cover;
+}
+
+/*
+ * The globe rests a quarter turn in and drifts another quarter on load.
+ * `rotate` rather than `transform` so it never clobbers the object-fit sizing.
+ */
+.globe {
+  animation: spinGlobe 3s linear 10ms both;
+}
+
+@keyframes spinGlobe {
+  from {
+    rotate: 90deg;
+  }
+  to {
+    rotate: 180deg;
+  }
+}
+
+.statCardGlobe {
+  background: var(--color-lavender);
+}
+
+.statCardOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(13, 8, 38, 0.6);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+}
+
+.statCardMoney {
+  background: rgba(73, 76, 100, 0.35);
+  border: 1px solid rgba(199, 214, 254, 0.15);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+}
+
+.statCardContent {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.statNumber {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 32px;
+  letter-spacing: -0.02em;
+  color: var(--color-accent);
+}
+
+.statLabel {
+  margin-top: 6px;
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: -0.01em;
+  color: var(--color-white);
+  text-transform: uppercase;
+}
+
+/*
+ * Bar chart that grows on load. In the design all four bars share a baseline and
+ * rise to 34/25/17/11px; flex-end means animating height alone grows them upward,
+ * so no translate is needed (Figma's export uses height + translate to the same end).
+ */
+.moneyBars {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 34px;
+  /* Puts the shared baseline at ~62% of the card, as in the design. */
+  margin-bottom: 10px;
+}
+
+.moneyBars span {
+  width: 34px;
+  border-radius: 4px;
+  background: rgba(199, 214, 254, 0.3);
+  animation: growBar 800ms linear 10ms both;
+}
+
+.moneyBars span:nth-child(1) {
+  --bar-height: 34px;
+  /* The tallest bar is the only one that also lights up. */
+  animation: growBar 800ms linear 10ms both, litBar 800ms linear 10ms both;
+}
+
+.moneyBars span:nth-child(2) {
+  --bar-height: 25px;
+}
+
+.moneyBars span:nth-child(3) {
+  --bar-height: 17px;
+}
+
+.moneyBars span:nth-child(4) {
+  --bar-height: 11px;
+}
+
+@keyframes growBar {
+  from {
+    height: 6px;
+  }
+  to {
+    height: var(--bar-height);
+  }
+}
+
+@keyframes litBar {
+  from {
+    opacity: 0.3;
+    background-color: #c7d6fe;
+  }
+  to {
+    opacity: 1;
+    background-color: var(--color-accent);
+  }
+}
+
+/*
+ * --- mobile (design frame 402px) ---
+ * The row is wider than the screen and swipes horizontally, bleeding off both
+ * edges. It opens centred on the wide card — TrustGallery sets the initial
+ * scrollLeft, since CSS can't centre a scroll container's content on load.
+ * Everything below is the desktop geometry at the design's 0.708 scale.
+ */
+@media (max-width: 640px) {
+  .gallery {
+    flex-wrap: nowrap;
+    align-items: center;
+    /*
+     * Must not stay `center`: centring an overflowing flex row spills content past
+     * the scroll origin, and that left half can never be scrolled back to.
+     */
+    justify-content: flex-start;
+    width: auto;
+    max-width: none;
+    margin-top: 42px;
+    padding: 0;
+    gap: 17px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  /* The row is the affordance; a scrollbar over the cards just adds noise. */
+  .gallery::-webkit-scrollbar {
+    display: none;
+  }
+
+  .item {
+    flex: none;
+    max-width: none;
+    border-radius: 10px;
+    scroll-snap-align: center;
+  }
+
+  /*
+   * No `order` overrides here: source order already puts the featured photo in
+   * the middle slot, which is the card the scroller opens on.
+   */
+
+  .photoShort {
+    width: 169px;
+    height: 141px;
+  }
+
+  .photoTall {
+    width: 141px;
+    height: 218px;
+  }
+
+  .statCard {
+    width: 141px;
+    height: 187px;
+    padding: 14px 11px;
+  }
+
+  .statNumber {
+    font-size: 23px;
+  }
+
+  .statLabel {
+    margin-top: 4px;
+    font-size: 10px;
+  }
+
+  .moneyBars {
+    height: 24px;
+    gap: 3px;
+    margin-bottom: 7px;
+  }
+
+  .moneyBars span {
+    width: 24px;
+  }
+
+  .moneyBars span:nth-child(1) {
+    --bar-height: 24px;
+  }
+
+  .moneyBars span:nth-child(2) {
+    --bar-height: 18px;
+  }
+
+  .moneyBars span:nth-child(3) {
+    --bar-height: 12px;
+  }
+
+  .moneyBars span:nth-child(4) {
+    --bar-height: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .globe {
+    rotate: 180deg;
+    animation: none;
+  }
+
+  .moneyBars span {
+    height: var(--bar-height);
+    animation: none;
+  }
+
+  .moneyBars span:nth-child(1) {
+    animation: none;
+    opacity: 1;
+    background-color: var(--color-accent);
+  }
+}

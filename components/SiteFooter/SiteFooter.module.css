@@ -1,0 +1,201 @@
+.footer {
+  position: relative;
+  z-index: 5;
+  padding: 0 24px 40px;
+}
+
+.inner {
+  max-width: 1484px;
+  margin: 0 auto;
+}
+
+.rule {
+  height: 0;
+  margin: 0;
+  border: none;
+  border-top: 1px solid rgba(199, 214, 254, 0.25);
+}
+
+/* Two exported lockups sitting side by side, scaling together with the page. */
+.wordmark {
+  display: flex;
+  align-items: flex-end;
+  gap: 1.5%;
+  margin-top: 25px;
+}
+
+.wordmark img {
+  width: 50%;
+  height: auto;
+}
+
+.panel {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 24px;
+  padding: 33px 27px;
+  border-radius: 7px;
+  background: rgba(40, 49, 135, 0.4);
+}
+
+.socials {
+  display: flex;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.socials a {
+  display: grid;
+  place-items: center;
+  width: 33px;
+  height: 33px;
+  transition: opacity 0.15s ease;
+}
+
+.socials a:hover {
+  opacity: 0.75;
+}
+
+.address {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-style: normal;
+  line-height: 1.35;
+  color: var(--color-white);
+}
+
+.address a:hover {
+  text-decoration: underline;
+}
+
+.prompt {
+  margin-left: auto;
+  font-family: var(--font-body);
+  font-size: 26px;
+  line-height: 1;
+  color: var(--color-white);
+}
+
+.contact {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  padding: 8px 8px 8px 18px;
+  border: 1px solid var(--color-accent);
+  border-radius: 347px;
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--color-accent);
+  transition: background 0.15s ease;
+}
+
+.contact:hover {
+  background: rgba(46, 216, 120, 0.1);
+}
+
+.contact img {
+  width: 30px;
+  height: 30px;
+}
+
+.legal {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 45px;
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: 17.7px;
+  text-transform: uppercase;
+  color: var(--color-white);
+}
+
+.legalLinks {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* The bullet separators are part of the type in the design, not list markers. */
+.legalLinks li:not(:last-child)::after {
+  content: " •";
+}
+
+.legalLinks a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 1000px) {
+  .panel {
+    flex-wrap: wrap;
+  }
+
+  .prompt {
+    margin-left: 0;
+    font-size: 20px;
+  }
+
+  .legal {
+    flex-direction: column;
+    font-size: 15px;
+  }
+
+  .legalLinks {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
+
+/*
+ * --- mobile (design frame 402px) ---
+ * The lockup stacks, and the design drops the contact panel entirely.
+ */
+@media (max-width: 640px) {
+  .footer {
+    padding: 0 32px 40px;
+  }
+
+  .rule {
+    display: none;
+  }
+
+  .wordmark {
+    flex-direction: column;
+    gap: 11px;
+    margin-top: 61px;
+  }
+
+  .wordmark img {
+    width: 100%;
+  }
+
+  /* Not present in the mobile frame — see the note in the handover. */
+  .panel {
+    display: none;
+  }
+
+  .legal {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+    font-size: 12px;
+  }
+
+  .legalLinks {
+    justify-content: center;
+    gap: 8px;
+  }
+}

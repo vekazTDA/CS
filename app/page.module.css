@@ -1,0 +1,87 @@
+.page {
+  position: relative;
+  overflow: clip;
+  padding-top: 24px;
+}
+
+.glowTop {
+  position: absolute;
+  top: -260px;
+  left: 50%;
+  width: 1900px;
+  max-width: none;
+  height: 1000px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(199, 214, 254, 0.35) 0%,
+    rgba(40, 49, 135, 0.25) 45%,
+    transparent 70%
+  );
+  transform: translateX(-50%);
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.lightSection {
+  position: relative;
+  z-index: 5;
+  background: linear-gradient(
+    180deg,
+    #0f0829 0%,
+    #283187 20%,
+    #4a58b5 50%,
+    #8fa2e8 78%,
+    #c7d6fe 100%
+  );
+}
+
+.sectionFade {
+  position: relative;
+  z-index: 5;
+  height: 200px;
+  background: linear-gradient(180deg, #c7d6fe 0%, #4a58b5 40%, #0f0829 100%);
+}
+
+/* Shares the faint measuring grid used by the other dark sections. */
+.darkSection {
+  position: relative;
+  z-index: 5;
+  padding-bottom: 24px;
+}
+
+.darkSection::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("/images/bg-grid.svg");
+  background-size: cover;
+  background-position: center;
+  pointer-events: none;
+}
+
+.sectionFadeUp {
+  position: relative;
+  z-index: 5;
+  height: 200px;
+  background: linear-gradient(180deg, #0f0829 0%, #4a58b5 60%, #c7d6fe 100%);
+}
+
+.glowMid {
+  position: absolute;
+  top: 1500px;
+  left: 50%;
+  width: 1900px;
+  max-width: none;
+  height: 1400px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(46, 216, 120, 0.18) 0%,
+    rgba(40, 49, 135, 0.2) 45%,
+    transparent 70%
+  );
+  transform: translateX(-50%);
+  mix-blend-mode: hard-light;
+  pointer-events: none;
+  z-index: 0;
+}

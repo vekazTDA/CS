@@ -61,11 +61,12 @@
 }
 
 /*
- * Prev retraces the same path, but it can't just replay dealOut in reverse: that
- * starts on the 100% keyframe, so the arriving card would spend its first third
- * wearing the back-of-deck translucency and the deck would look empty. It stays
- * solid white and on top the whole way instead, mirroring how next always keeps a
- * fully visible card on screen.
+ * Prev mirrors only dealOut's OUTWARD leg, not the whole path. Mirroring the lot
+ * would start the card at the centre and swing it out left before bringing it
+ * home — vacating the centre while the outgoing card is busy fading to the
+ * back-of-deck style, which leaves a blank stack on screen. One leg instead: the
+ * card starts off to the left and travels straight in, so something solid and
+ * readable is always heading for the centre.
  */
 .dealIn {
   background: #ffffff;
@@ -76,23 +77,27 @@
    * owns the transform, so dropping the transition outright is safe.
    */
   transition: none;
-  animation: dealIn 950ms linear forwards;
+  /*
+   * Same 600ms and same curve as dealOut's outward leg — deliberately NOT the
+   * time-reversed curve. Reversing is the correct mirror on paper, but it flips
+   * the rhythm: the card would whip away immediately and then crawl, reading as
+   * much faster than next. Matching the curve keeps both directions feeling alike.
+   */
+  animation: dealIn 600ms cubic-bezier(0.95, 0, 0.2, 1) forwards;
 }
 
-/* Percentages and easings are dealOut's, mirrored: 100-63 -> 37, 100-67 -> 33. */
+/* The copy rides in with the card rather than fading up once it lands. */
+.dealIn .cardContent {
+  opacity: 1;
+  transition: none;
+  animation: none;
+}
+
 @keyframes dealIn {
-  0% {
-    transform: translate(0, 0) rotate(-14.35deg);
-    animation-timing-function: cubic-bezier(0.8, 0, 0.6, 1);
-  }
-  33% {
+  from {
     transform: translate(-113%, var(--deal-drop, 42px)) rotate(-16.33deg);
   }
-  37% {
-    transform: translate(-113%, var(--deal-drop, 42px)) rotate(-16.33deg);
-    animation-timing-function: cubic-bezier(0.8, 0, 0.05, 1);
-  }
-  100% {
+  to {
     transform: translate(0, 0) rotate(0deg);
   }
 }
@@ -132,10 +137,6 @@
 /* Copy stays legible on the way out, then clears before the card rejoins the stack. */
 .dealOut .cardContent {
   animation: dealOutContent 950ms linear forwards;
-}
-
-.dealIn .cardContent {
-  animation: dealOutContent 950ms linear reverse;
 }
 
 /* Holds through the outward leg and the apex (67%), then clears during the return. */

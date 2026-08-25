@@ -53,8 +53,10 @@ const DEPTH_BG = [
   "rgba(255, 255, 255, 0.3)",
 ];
 
-// Matches the deal animation in WhatWeFight.module.css.
-const DEAL_MS = 950;
+// Match the two deal animations in WhatWeFight.module.css. Prev is the shorter of
+// the pair: it only plays the inward leg, where next also travels back to the deck.
+const DEAL_OUT_MS = 950;
+const DEAL_IN_MS = 600;
 
 export default function WhatWeFight() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -71,7 +73,10 @@ export default function WhatWeFight() {
     setActiveIndex(nextIndex);
 
     if (timer.current) clearTimeout(timer.current);
-    timer.current = setTimeout(() => setDealt(null), DEAL_MS);
+    timer.current = setTimeout(
+      () => setDealt(null),
+      dir === 1 ? DEAL_OUT_MS : DEAL_IN_MS,
+    );
   }
 
   return (

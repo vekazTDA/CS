@@ -7,9 +7,18 @@
   --color-white: #ffffff;
   --color-dark-overlay: rgba(13, 8, 38, 0.8);
 
-  --font-heading: var(--font-heading), "Century Gothic", sans-serif;
-  --font-body: var(--font-body), -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-ui: var(--font-ui), -apple-system, BlinkMacSystemFont, sans-serif;
+  /*
+   * Adobe Fonts first (loaded from the Typekit project in app/layout.tsx), then the
+   * self-hosted next/font stand-ins, then a system face. Note these are NOT the same
+   * names as the next/font variables any more — a var() that referenced its own name
+   * here would be a cycle, and the declaration would drop out entirely.
+   */
+  --font-heading: "futura-pt", var(--font-heading-fallback), "Century Gothic",
+    sans-serif;
+  --font-body: "proxima-nova", var(--font-body-fallback), -apple-system,
+    BlinkMacSystemFont, sans-serif;
+  --font-ui: var(--font-jakarta), -apple-system, BlinkMacSystemFont,
+    sans-serif;
 
   --page-max-width: 1728px;
 }

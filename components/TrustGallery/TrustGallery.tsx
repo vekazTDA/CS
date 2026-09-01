@@ -9,25 +9,37 @@ export default function TrustGallery() {
 
   /*
    * On mobile the row is a horizontal scroller that opens centred on the featured
-   * card, which CSS can't express. This has to run inside rAF: mandatory scroll
-   * snapping performs its own snap right after first layout, and setting
-   * scrollLeft before that just gets overridden back to the start.
-   * Desktop fits on screen, so the width check makes it a no-op there.
+   * card, which CSS can't express. The tricky part is *when*: on first paint the
+   * track is often not at its final width yet, and the effect then sees
+   * scrollWidth <= clientWidth and no-ops. A single requestAnimationFrame used to be
+   * enough, but that is just a guess about layout order — adding one render-blocking
+   * stylesheet to <head> was enough to break it. A ResizeObserver waits for the real
+   * thing instead: the first callback where the track is actually overflowing.
+   *
+   * Assigning scrollLeft (rather than scrollIntoView) keeps this confined to the
+   * scroller — scrollIntoView is free to scroll the whole page vertically to reveal
+   * the card, which on a fresh load would jump the visitor past the hero.
    */
   useEffect(() => {
     const node = galleryRef.current;
     if (!node) return;
 
-    const frame = requestAnimationFrame(() => {
-      if (node.scrollWidth <= node.clientWidth) return;
+    const featured = node.querySelector<HTMLElement>('[data-featured="true"]');
+    if (!featured) return;
 
-      const featured = node.querySelector<HTMLElement>('[data-featured="true"]');
-      if (!featured) return;
-
+    let centred = false;
+    const centre = () => {
+      // Desktop lays the row out in full, so there is nothing to centre.
+      if (centred || node.scrollWidth <= node.clientWidth) return;
+      centred = true;
       node.scrollLeft =
         featured.offsetLeft + featured.offsetWidth / 2 - node.clientWidth / 2;
-    });
-    return () => cancelAnimationFrame(frame);
+    };
+
+    centre();
+    const observer = new ResizeObserver(centre);
+    observer.observe(node);
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -59,12 +71,12 @@ export default function TrustGallery() {
       </div>
 
       {/* The card the mobile scroller opens on — see centreOnFeatured. */}
-      <div className={`${styles.item} ${styles.photoTall}`} data-featured="true">
+      <div className={`${styles.item} ${styles.photoWide}`} data-featured="true">
         <Image
           src="/images/hero-street-walk.jpg"
           alt="Consumer Attorneys legal team"
           fill
-          sizes="200px"
+          sizes="239px"
           className={styles.photo}
         />
       </div>

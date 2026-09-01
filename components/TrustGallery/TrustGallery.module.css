@@ -118,11 +118,35 @@
   font-size: 13px;
 }
 
+/*
+ * Figma 308:3812 "clients-money": 199x264, content centred, text block bottom at 232 —
+ * 32px above the card's bottom edge. Its number and label boxes are 53px and 19px, the
+ * same as the globe card's, so the type matches that card rather than the smaller
+ * shared .statNumber / .statLabel defaults.
+ */
 .statCardMoney {
+  height: 264px;
+  padding-bottom: 32px;
   background: rgba(73, 76, 100, 0.35);
   border: 1px solid rgba(199, 214, 254, 0.15);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
+}
+
+.statCardMoney .statCardContent {
+  align-items: center;
+  text-align: center;
+}
+
+.statCardMoney .statNumber {
+  line-height: 1;
+  font-size: 38px;
+}
+
+.statCardMoney .statLabel {
+  margin-top: 7px;
+  line-height: 1;
+  font-size: 13px;
 }
 
 .statCardContent {
@@ -153,64 +177,26 @@
 }
 
 /*
- * Bar chart that grows on load. In the design all four bars share a baseline and
- * rise to 34/25/17/11px; flex-end means animating height alone grows them upward,
- * so no translate is needed (Figma's export uses height + translate to the same end).
+ * Four flat, equal pills: Figma draws them 34x6 at x=26/64/102/140, so a 148px row
+ * centred in the 199px card with 4px gaps. This is the RESTING state only — the card
+ * animates on load, but that motion is a prototype variant swap, so get_motion_context
+ * returns nothing for it and it has to come from a recording.
  */
 .moneyBars {
   position: relative;
   z-index: 1;
   display: flex;
-  align-items: flex-end;
+  justify-content: center;
   gap: 4px;
-  height: 34px;
-  /* Puts the shared baseline at ~62% of the card, as in the design. */
-  margin-bottom: 10px;
+  height: 6px;
+  margin-bottom: 7px;
 }
 
 .moneyBars span {
   width: 34px;
+  height: 6px;
   border-radius: 4px;
   background: rgba(199, 214, 254, 0.3);
-  animation: growBar 800ms linear 10ms both;
-}
-
-.moneyBars span:nth-child(1) {
-  --bar-height: 34px;
-  /* The tallest bar is the only one that also lights up. */
-  animation: growBar 800ms linear 10ms both, litBar 800ms linear 10ms both;
-}
-
-.moneyBars span:nth-child(2) {
-  --bar-height: 25px;
-}
-
-.moneyBars span:nth-child(3) {
-  --bar-height: 17px;
-}
-
-.moneyBars span:nth-child(4) {
-  --bar-height: 11px;
-}
-
-@keyframes growBar {
-  from {
-    height: 6px;
-  }
-  to {
-    height: var(--bar-height);
-  }
-}
-
-@keyframes litBar {
-  from {
-    opacity: 0.3;
-    background-color: #c7d6fe;
-  }
-  to {
-    opacity: 1;
-    background-color: var(--color-accent);
-  }
 }
 
 /*
@@ -313,29 +299,28 @@
   }
 
   .moneyBars {
-    height: 24px;
+    height: 4px;
     gap: 3px;
-    margin-bottom: 7px;
+    margin-bottom: 5px;
   }
 
   .moneyBars span {
     width: 24px;
+    height: 4px;
   }
 
-  .moneyBars span:nth-child(1) {
-    --bar-height: 24px;
+  /* Restated: the desktop rules are compound selectors and outrank a bare one here. */
+  .statCardMoney {
+    padding-bottom: 22px;
   }
 
-  .moneyBars span:nth-child(2) {
-    --bar-height: 18px;
+  .statCardMoney .statNumber {
+    font-size: 28px;
   }
 
-  .moneyBars span:nth-child(3) {
-    --bar-height: 12px;
-  }
-
-  .moneyBars span:nth-child(4) {
-    --bar-height: 8px;
+  .statCardMoney .statLabel {
+    margin-top: 5px;
+    font-size: 10px;
   }
 }
 
@@ -343,16 +328,5 @@
   .globe {
     rotate: 180deg;
     animation: none;
-  }
-
-  .moneyBars span {
-    height: var(--bar-height);
-    animation: none;
-  }
-
-  .moneyBars span:nth-child(1) {
-    animation: none;
-    opacity: 1;
-    background-color: var(--color-accent);
   }
 }

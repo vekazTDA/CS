@@ -64,21 +64,45 @@
 }
 
 .statCardGlobe {
-  background: var(--color-lavender);
+  /*
+   * #C7D6FE33 — a tint over the dark page, not an opaque fill. Letting the page and
+   * its measuring grid show through is what gives the card its purple in the design.
+   */
+  background: rgba(199, 214, 254, 0.2);
   justify-content: flex-start;
+  padding-top: 65px;
+}
+
+/*
+ * The globe sits wider than the card and sunk past its bottom edge, so only the top of
+ * the sphere shows. The source is a JPEG on a solid WHITE background, but the sphere is
+ * a near-perfect disc — centred at 49.8%/50.0%, 97.1% of the image width, filling 98.1%
+ * of its inscribed circle — so a centred circular clip removes the white exactly, with
+ * no second asset. 48.5% is the sphere's own radius: 97.1% / 2.
+ */
+.globeWrap {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  /* 109% of the card puts the sphere itself at the design's ~106%. */
+  width: 109%;
+  aspect-ratio: 1;
+  /* translate resolves against the element's own size, so this holds at both sizes. */
+  translate: -50% 38%;
+  clip-path: circle(48.5%);
 }
 
 .statCardGlobe .statCardContent {
-  align-items: flex-start;
-  text-align: left;
+  align-items: center;
+  text-align: center;
 }
 
-.statCardOverlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(199, 214, 254, 0.2);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
+.statCardGlobe .statNumber {
+  font-size: 38px;
+}
+
+.statCardGlobe .statLabel {
+  font-size: 13px;
 }
 
 .statCardMoney {
@@ -248,6 +272,29 @@
 
   .statLabel {
     margin-top: 4px;
+    font-size: 10px;
+  }
+
+  /*
+   * Same proportions as desktop on the 141x187 card, except the label, which keeps the
+   * base mobile 10px. Type does not scale linearly with the card between breakpoints —
+   * the mobile label is already set larger relative to its card than desktop's is, for
+   * legibility — so bumping it too pushed it to 78% of the card width against the
+   * design's ~64%. Held at 10px it sits at 70.8%, matching the number exactly.
+   *
+   * This has to be restated rather than left to the base `.statLabel` rule: the
+   * desktop `.statCardGlobe .statLabel` above is a compound selector, so it outranks
+   * a bare `.statLabel` here no matter which media query wins.
+   */
+  .statCardGlobe {
+    padding-top: 45px;
+  }
+
+  .statCardGlobe .statNumber {
+    font-size: 28px;
+  }
+
+  .statCardGlobe .statLabel {
     font-size: 10px;
   }
 

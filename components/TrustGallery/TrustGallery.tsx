@@ -55,15 +55,21 @@ export default function TrustGallery() {
       </div>
 
       <div className={`${styles.item} ${styles.statCard} ${styles.statCardGlobe}`}>
-        <Image
-          src="/images/hero-globe.jpg"
-          alt=""
-          fill
-          sizes="200px"
-          className={`${styles.photo} ${styles.globe}`}
-          aria-hidden="true"
-        />
-        <div className={styles.statCardOverlay} />
+        {/*
+          The globe needs its own box: it is sized wider than the card and sunk below
+          its bottom edge, and `fill` writes width/height/inset as INLINE styles that a
+          class cannot override. The wrapper carries the geometry and the circular clip
+          that cuts away the source JPEG's white background; the image just fills it.
+        */}
+        <div className={styles.globeWrap} aria-hidden="true">
+          <Image
+            src="/images/hero-globe.jpg"
+            alt=""
+            fill
+            sizes="240px"
+            className={`${styles.photo} ${styles.globe}`}
+          />
+        </div>
         <div className={styles.statCardContent}>
           <span className={styles.statNumber}>10,000+</span>
           <span className={styles.statLabel}>Nationwide clients</span>

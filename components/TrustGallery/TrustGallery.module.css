@@ -70,7 +70,7 @@
    */
   background: rgba(199, 214, 254, 0.2);
   justify-content: flex-start;
-  padding-top: 65px;
+  padding-top: 60px;
 }
 
 /*
@@ -98,10 +98,18 @@
 }
 
 .statCardGlobe .statNumber {
+  /*
+   * Both spans otherwise inherit line-height 1.5, which puts a 38px number in a 57px
+   * line box — ~19px of leading that reads as a gap no margin tweak can close.
+   */
+  line-height: 1;
   font-size: 38px;
 }
 
 .statCardGlobe .statLabel {
+  /* Tighter than the base 6px — the number and label read as one block here. */
+  margin-top: 7px;
+  line-height: 1;
   font-size: 13px;
 }
 
@@ -287,7 +295,7 @@
    * a bare `.statLabel` here no matter which media query wins.
    */
   .statCardGlobe {
-    padding-top: 45px;
+    padding-top: 41px;
   }
 
   .statCardGlobe .statNumber {
@@ -295,6 +303,7 @@
   }
 
   .statCardGlobe .statLabel {
+    margin-top: 5px;
     font-size: 10px;
   }
 

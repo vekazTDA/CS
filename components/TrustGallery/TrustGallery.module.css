@@ -19,8 +19,13 @@
   overflow: hidden;
 }
 
+/*
+ * Taller than the stat cards beside it: in the design this photo and the globe card are
+ * the same width, with the photo at 1.155x the card's 272px height. Despite the class
+ * name this is now the second tallest item in the row.
+ */
 .photoShort {
-  height: 208px;
+  height: 314px;
 }
 
 .photoTall {

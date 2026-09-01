@@ -177,27 +177,126 @@
 }
 
 /*
- * Four flat, equal pills: Figma draws them 34x6 at x=26/64/102/140, so a 148px row
- * centred in the 199px card with 4px gaps. This is the RESTING state only — the card
- * animates on load, but that motion is a prototype variant swap, so get_motion_context
- * returns nothing for it and it has to come from a recording.
+ * Looping bar chart, decoded frame by frame from the prototype recording.
+ *
+ * All four bars grow from the collapsed state at the SAME rate (~40px/s), so each one
+ * simply stops when it reaches its own height and they finish in order. The green
+ * highlight always sits on the tallest bar, which means it travels 1 -> 2 -> 3 -> 4 as
+ * each bar in turn overtakes the one before it. The chart then holds briefly, collapses
+ * (the tallest bar lagging behind the others), and repeats. Cycle is ~4.3s.
+ *
+ * Figma's static frame shows all four flat at 6px, which is only the collapsed instant
+ * of this loop, not a resting state. Heights come from the recording scaled by the bar
+ * width, which is the one measurement shared with Figma: 38.5px recorded = 34px design.
+ *
+ * The percentages differ per bar, so each needs its own keyframes; the heights stay in
+ * custom properties so the mobile block only has to restate four numbers.
  */
 .moneyBars {
   position: relative;
   z-index: 1;
   display: flex;
+  align-items: flex-end;
   justify-content: center;
   gap: 4px;
-  height: 6px;
+  /* Fixed to the tallest bar, so growth never reflows the text below. */
+  height: 95px;
   margin-bottom: 7px;
+  --bar-dim: rgba(199, 214, 254, 0.3);
+  --bar-lit: var(--color-accent);
 }
 
 .moneyBars span {
   width: 34px;
-  height: 6px;
   border-radius: 4px;
-  background: rgba(199, 214, 254, 0.3);
+  background: var(--bar-dim);
+  animation-duration: 4300ms;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
 }
+
+.moneyBars span:nth-child(1) {
+  --bar-h: 34px;
+  animation-name: moneyBar1;
+}
+
+.moneyBars span:nth-child(2) {
+  --bar-h: 63px;
+  animation-name: moneyBar2;
+}
+
+.moneyBars span:nth-child(3) {
+  --bar-h: 82px;
+  animation-name: moneyBar3;
+}
+
+.moneyBars span:nth-child(4) {
+  --bar-h: 95px;
+  animation-name: moneyBar4;
+}
+
+/*
+ * Keyframes transcribed from the recording rather than modelled: sampling it every
+ * 288ms showed the bars are NOT growing at one shared rate. They stay in descending
+ * order the whole way up — at 580ms the recording reads 28/21/15/11 — so the chart
+ * fills as a wave sweeping right, each bar accelerating into its own cap. Percentages
+ * are the sample times over the 4.32s cycle; heights are the recorded pixels scaled by
+ * 95/108, which pins the tallest bar to the design's 95px.
+ */
+@keyframes moneyBar1 {
+  0% { height: 9px; background: var(--bar-dim); }
+  6.67% { background: var(--bar-dim); }
+  13.33% { height: 28px; background: var(--bar-lit); }
+  20% { height: 34px; background: var(--bar-lit); }
+  33.36% { background: var(--bar-dim); }
+  73.36% { height: 34px; }
+  80.05% { height: 28px; }
+  86.71% { height: 18px; }
+  100% { height: 9px; }
+}
+
+@keyframes moneyBar2 {
+  0% { height: 8px; background: var(--bar-dim); }
+  20% { height: 28px; }
+  26.67% { background: var(--bar-dim); }
+  33.36% { height: 55px; background: var(--bar-lit); }
+  40.02% { height: 62px; background: var(--bar-lit); }
+  53.36% { background: var(--bar-dim); }
+  73.36% { height: 62px; }
+  80.05% { height: 50px; }
+  86.71% { height: 31px; }
+  93.33% { height: 21px; }
+  100% { height: 8px; }
+}
+
+@keyframes moneyBar3 {
+  0% { height: 8px; background: var(--bar-dim); }
+  20% { height: 19px; }
+  40.02% { height: 48px; }
+  46.69% { background: var(--bar-dim); }
+  53.36% { height: 77px; background: var(--bar-lit); }
+  60.02% { height: 82px; background: var(--bar-lit); }
+  73.36% { height: 81px; background: var(--bar-dim); }
+  80.05% { height: 65px; }
+  86.71% { height: 39px; }
+  93.33% { height: 26px; }
+  100% { height: 8px; }
+}
+
+@keyframes moneyBar4 {
+  0% { height: 7px; background: var(--bar-dim); }
+  20% { height: 13px; }
+  40.02% { height: 38px; }
+  53.36% { height: 64px; }
+  60.02% { height: 82px; background: var(--bar-dim); }
+  66.69% { height: 95px; background: var(--bar-lit); }
+  80.05% { height: 95px; }
+  86.71% { height: 64px; background: var(--bar-lit); }
+  93.33% { height: 41px; }
+  100% { height: 7px; background: var(--bar-dim); }
+}
+
 
 /*
  * --- mobile (design frame 402px) ---
@@ -298,15 +397,23 @@
     font-size: 10px;
   }
 
+  /*
+   * Bar width drops 34 -> 24px. The keyframe heights are absolute px, so rather than
+   * restating every stop, each bar is scaled on its own Y axis by the same 0.706 and
+   * anchored to the shared baseline. Scaling the container instead does not work: it
+   * stays laid out at full width, so the flex items shrink to fit and the row comes
+   * out narrow.
+   */
   .moneyBars {
-    height: 4px;
+    height: 67px;
     gap: 3px;
     margin-bottom: 5px;
   }
 
   .moneyBars span {
     width: 24px;
-    height: 4px;
+    transform: scaleY(0.706);
+    transform-origin: bottom center;
   }
 
   /* Restated: the desktop rules are compound selectors and outrank a bare one here. */
@@ -328,5 +435,15 @@
   .globe {
     rotate: 180deg;
     animation: none;
+  }
+
+  /* Hold the chart at the end of its cycle rather than looping. */
+  .moneyBars span {
+    height: var(--bar-h);
+    animation: none;
+  }
+
+  .moneyBars span:nth-child(4) {
+    background: var(--bar-lit);
   }
 }

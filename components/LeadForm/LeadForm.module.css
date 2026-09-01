@@ -23,7 +23,7 @@
 
 .heading {
   font-family: var(--font-heading);
-  font-weight: 800;
+  font-weight: 600;
   font-size: 26px;
   letter-spacing: -0.02em;
   text-transform: uppercase;
@@ -197,7 +197,7 @@
     margin-top: 16px;
     border-radius: 25px;
     font-family: var(--font-heading);
-    font-weight: 800;
+    font-weight: 600;
     font-size: 17px;
     text-transform: uppercase;
   }

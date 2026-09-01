@@ -27,15 +27,14 @@ const TEAM = [
   {
     name: "Daniel Cohen",
     role: "Founder & CEO",
-    photo: "/images/team/daniel-cohen.png",
+    photo: "/images/team/daniel-cohen-2.png",
     raised: true,
     /*
-     * Figma scales this one's frame non-uniformly (0.846 against the photo's own
-     * 0.715), which it renders as a stretch. Matching the source aspect instead —
-     * same height, width derived from it, recentred — keeps him undistorted and
-     * stops `cover` eating ~80px off the top of his head.
+     * This crop is near-square already (340x327), unlike the others' vertical
+     * crops, so a plain fill covers the circle with almost no zoom — `cover` +
+     * `object-position: bottom` (set in the CSS) handles the ~4% excess width.
      */
-    frame: { left: "3.38%", top: "3.87%", width: "93.2%", height: "130.4%" },
+    frame: { left: "0%", top: "0%", width: "100%", height: "100%" },
   },
   {
     name: "Moshe Boroosan",

@@ -26,18 +26,8 @@ export default function Home() {
         <CtaBanner />
       </div>
 
-      {/* Eases the lavender panel back down to the dark page ground. */}
-      <div className={styles.sectionFade} aria-hidden="true" />
-
       <HowItWorks />
-
-      {/* ...and back up to the light testimonials panel. */}
-      <div className={styles.sectionFadeUp} aria-hidden="true" />
-
       <Testimonials />
-
-      {/* Final return to the dark ground, which the footer sits on. */}
-      <div className={styles.sectionFade} aria-hidden="true" />
 
       <div className={styles.darkSection}>
         <MeetTheTeam />

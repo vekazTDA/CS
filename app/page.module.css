@@ -36,13 +36,6 @@
   );
 }
 
-.sectionFade {
-  position: relative;
-  z-index: 5;
-  height: 200px;
-  background: linear-gradient(180deg, #c7d6fe 0%, #4a58b5 40%, #0f0829 100%);
-}
-
 /* Shares the faint measuring grid used by the other dark sections. */
 .darkSection {
   position: relative;
@@ -58,13 +51,6 @@
   background-size: cover;
   background-position: center;
   pointer-events: none;
-}
-
-.sectionFadeUp {
-  position: relative;
-  z-index: 5;
-  height: 200px;
-  background: linear-gradient(180deg, #0f0829 0%, #4a58b5 60%, #c7d6fe 100%);
 }
 
 .glowMid {

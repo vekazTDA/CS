@@ -17,8 +17,6 @@
     sans-serif;
   --font-body: "proxima-nova", var(--font-body-fallback), -apple-system,
     BlinkMacSystemFont, sans-serif;
-  --font-ui: var(--font-jakarta), -apple-system, BlinkMacSystemFont,
-    sans-serif;
 
   --page-max-width: 1728px;
 }

@@ -9,7 +9,7 @@
   max-width: 720px;
   margin: 0 auto;
   font-family: var(--font-heading);
-  font-weight: 700;
+  font-weight: 600;
   font-size: clamp(30px, 4.2vw, 52px);
   line-height: 1.15;
   letter-spacing: -0.02em;
@@ -61,8 +61,8 @@
 .avatarInitial {
   display: grid;
   place-items: center;
-  font-family: var(--font-ui);
-  font-weight: 700;
+  font-family: var(--font-body);
+  font-weight: 400;
   font-size: 18px;
   color: var(--color-white);
 }
@@ -75,16 +75,16 @@
 }
 
 .name {
-  font-family: var(--font-ui);
-  font-weight: 700;
+  font-family: var(--font-body);
+  font-weight: 400;
   font-size: 18.45px;
   line-height: 1.4;
   color: var(--color-bg);
 }
 
 .source {
-  font-family: var(--font-ui);
-  font-weight: 400;
+  font-family: var(--font-body);
+  font-weight: 300;
   font-size: 11.74px;
   line-height: 1.4;
   color: var(--color-bg);

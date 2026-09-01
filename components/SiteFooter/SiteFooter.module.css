@@ -61,6 +61,7 @@
 
 .address {
   font-family: var(--font-body);
+  font-weight: 400;
   font-size: 16px;
   font-style: normal;
   line-height: 1.35;
@@ -74,6 +75,7 @@
 .prompt {
   margin-left: auto;
   font-family: var(--font-body);
+  font-weight: 400;
   font-size: 26px;
   line-height: 1;
   color: var(--color-white);
@@ -88,7 +90,7 @@
   border: 1px solid var(--color-accent);
   border-radius: 347px;
   font-family: var(--font-heading);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 14px;
   letter-spacing: -0.02em;
   text-transform: uppercase;
@@ -113,7 +115,7 @@
   gap: 24px;
   margin-top: 45px;
   font-family: var(--font-heading);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 17.7px;
   text-transform: uppercase;
   color: var(--color-white);
@@ -174,7 +176,8 @@
   .wordmark {
     flex-direction: column;
     gap: 11px;
-    margin-top: 61px;
+    /* Gap to the CTA above is padding-bottom on the team section, not a margin here. */
+    margin-top: 0;
   }
 
   .wordmark img {

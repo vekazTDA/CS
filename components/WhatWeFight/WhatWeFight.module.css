@@ -9,7 +9,7 @@
 
 .heading {
   font-family: var(--font-heading);
-  font-weight: 700;
+  font-weight: 600;
   font-size: clamp(28px, 4vw, 48px);
   letter-spacing: -0.02em;
   text-transform: uppercase;
@@ -20,6 +20,7 @@
   max-width: 780px;
   margin: 20px auto 0;
   font-family: var(--font-body);
+  font-weight: 300;
   font-size: 16px;
   line-height: 1.5;
   color: var(--color-white);
@@ -46,7 +47,15 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   transform: rotate(var(--rotate));
-  transition: transform 0.45s ease, background 0.45s ease;
+  /*
+   * No `transform` here deliberately. The Figma export shows each depth's rotation
+   * is a fixed slot in the fan (WWF2-5's rotation barely moves between states, well
+   * under a degree — noise, not motion): only the front card ever visibly rotates,
+   * via dealOut/dealIn's own keyframe animation below. Transitioning transform here
+   * too would smoothly re-rotate the other 3 cards on every click, a shuffle Figma
+   * doesn't show.
+   */
+  transition: background 0.45s ease;
 }
 
 /*

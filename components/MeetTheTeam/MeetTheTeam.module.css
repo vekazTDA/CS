@@ -1,13 +1,13 @@
 .section {
   position: relative;
   z-index: 5;
-  padding: 96px 24px 0;
+  padding: 96px 24px 56px;
   text-align: center;
 }
 
 .heading {
   font-family: var(--font-heading);
-  font-weight: 700;
+  font-weight: 600;
   font-size: clamp(28px, 4vw, 48px);
   letter-spacing: -0.02em;
   text-transform: uppercase;
@@ -91,7 +91,7 @@
 .name {
   margin-top: 32px;
   font-family: var(--font-heading);
-  font-weight: 800;
+  font-weight: 600;
   font-size: clamp(22px, 2vw, 32px);
   line-height: 1;
   text-transform: uppercase;
@@ -101,6 +101,7 @@
 .role {
   margin-top: 8px;
   font-family: var(--font-body);
+  font-weight: 400;
   font-size: clamp(16px, 1.4vw, 22px);
   line-height: 1.4;
   color: var(--color-lavender);
@@ -116,7 +117,7 @@
   border: 1px solid var(--color-accent);
   border-radius: 446px;
   font-family: var(--font-heading);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 18px;
   letter-spacing: -0.02em;
   text-transform: uppercase;
@@ -163,7 +164,13 @@
  */
 @media (max-width: 640px) {
   .section {
-    padding: 74px 0 0;
+    /*
+     * The 61px below the CTA is the design's gap to the footer wordmark. It lives
+     * here rather than as a margin on .wordmark, where it only worked by collapsing
+     * out through the footer — any padding or border added there later would trap
+     * it and the gap would vanish.
+     */
+    padding: 74px 0 61px;
     overflow: hidden;
   }
 

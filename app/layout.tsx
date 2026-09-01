@@ -1,32 +1,25 @@
 import type { Metadata } from "next";
-import { Poppins, Mulish, Plus_Jakarta_Sans } from "next/font/google";
+import { Poppins, Mulish } from "next/font/google";
 import "./globals.css";
 
 /*
  * The design's real typefaces — Futura PT and Proxima Nova — are licensed through
  * the Adobe Fonts web project linked in <head> below. They are not self-hosted,
- * so if that request is blocked the page still needs something to set. These three
- * next/font families are the fallbacks: Poppins and Mulish are the closest free
- * geometric/humanist stand-ins, and they self-host, so the page never goes blank.
+ * so if that request is blocked the page still needs something to set. Poppins and
+ * Mulish are the fallbacks: the closest free geometric/humanist stand-ins, and they
+ * self-host, so the page never goes blank. Their weight lists mirror the three faces
+ * the design actually uses — Futura PT Demi, Proxima Nova Light and Regular.
  */
 const headingFallback = Poppins({
   variable: "--font-heading-fallback",
   subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
+  weight: ["600"],
 });
 
 const bodyFallback = Mulish({
   variable: "--font-body-fallback",
   subsets: ["latin"],
-  weight: ["300", "400", "600"],
-});
-
-// The testimonial cards call for Plus Jakarta Sans by name in the design, so this
-// one is the real face rather than a stand-in.
-const ui = Plus_Jakarta_Sans({
-  variable: "--font-jakarta",
-  subsets: ["latin"],
-  weight: ["400", "700"],
+  weight: ["300", "400"],
 });
 
 export const metadata: Metadata = {
@@ -39,10 +32,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${headingFallback.variable} ${bodyFallback.variable} ${ui.variable}`}
+      className={`${headingFallback.variable} ${bodyFallback.variable}`}
     >
       <head>
-        {/* Adobe Fonts web project: futura-pt, futura-pt-bold, futura-pt-condensed, proxima-nova. */}
+        {/*
+          Adobe Fonts web project. The site uses exactly three faces from it:
+          futura-pt 600 (Demi), proxima-nova 300 (Light) and 400 (Regular).
+          The project must publish those weights — it ships 400/700 per family by
+          default, in which case Demi silently resolves to Heavy and Light to Regular.
+        */}
         <link rel="preconnect" href="https://use.typekit.net" />
         <link rel="stylesheet" href="https://use.typekit.net/vbf5qap.css" />
       </head>

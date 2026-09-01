@@ -6,7 +6,7 @@
   justify-content: center;
   flex-wrap: wrap;
   gap: clamp(10px, 1.6vw, 24px);
-  max-width: 1160px;
+  max-width: 1183px;
   margin: 56px auto 0;
   padding: 0 24px;
 }
@@ -25,6 +25,13 @@
 
 .photoTall {
   height: 320px;
+}
+
+.photoWide {
+  flex: 0 0 239px;
+  max-width: 239px;
+  height: 199px;
+  aspect-ratio: 239 / 199;
 }
 
 .statCard {
@@ -58,12 +65,18 @@
 
 .statCardGlobe {
   background: var(--color-lavender);
+  justify-content: flex-start;
+}
+
+.statCardGlobe .statCardContent {
+  align-items: flex-start;
+  text-align: left;
 }
 
 .statCardOverlay {
   position: absolute;
   inset: 0;
-  background: rgba(13, 8, 38, 0.6);
+  background: rgba(199, 214, 254, 0.2);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
 }
@@ -86,7 +99,7 @@
 
 .statNumber {
   font-family: var(--font-heading);
-  font-weight: 700;
+  font-weight: 600;
   font-size: 32px;
   letter-spacing: -0.02em;
   color: var(--color-accent);
@@ -95,7 +108,7 @@
 .statLabel {
   margin-top: 6px;
   font-family: var(--font-heading);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 12px;
   letter-spacing: -0.01em;
   color: var(--color-white);
@@ -216,6 +229,11 @@
   .photoTall {
     width: 141px;
     height: 218px;
+  }
+
+  .photoWide {
+    width: 169px;
+    height: 141px;
   }
 
   .statCard {

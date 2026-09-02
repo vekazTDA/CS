@@ -161,7 +161,7 @@ export default function Testimonials() {
     );
 
   return (
-    <section className={styles.section}>
+    <section id="testimonials" className={styles.section}>
       <h2 className={styles.heading}>
         Don&rsquo;t just take our
         <br />

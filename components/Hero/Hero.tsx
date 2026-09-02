@@ -3,13 +3,13 @@ import styles from "./Hero.module.css";
 
 export default function Hero() {
   return (
-    <section className={styles.hero}>
+    <section id="hero" className={styles.hero} aria-labelledby="hero-heading">
       <div className={styles.tag}>
         <span>No out-of pocket fees</span>
         <Image src="/icons/hero-tag-arrow.svg" alt="" width={12} height={8} aria-hidden="true" />
       </div>
 
-      <h1 className={styles.headline}>
+      <h1 id="hero-heading" className={styles.headline}>
         {/* The space matters: mobile hides the break and needs the words apart. */}
         When you&apos;ve been wronged,{" "}
         <br className={styles.headlineBreak} />

@@ -67,10 +67,22 @@ export default function SiteFooter() {
         <div className={styles.legal}>
           <ul className={styles.legalLinks}>
             <li>
-              <a href="#">Terms</a>
+              <a
+                href="https://consumerattorneys.com/page/terms-of-use"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Terms
+              </a>
             </li>
             <li>
-              <a href="#">Privacy Policy</a>
+              <a
+                href="https://consumerattorneys.com/page/privacy-policy"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Privacy Policy
+              </a>
             </li>
             <li>All Rights Reserved. Consumer Attorneys 2026</li>
           </ul>

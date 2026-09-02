@@ -1,5 +1,13 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Poppins, Mulish } from "next/font/google";
+import JsonLd from "@/components/JsonLd/JsonLd";
+import {
+  jsonLdGraph,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_TITLE,
+  SITE_URL,
+} from "@/lib/seo";
 import "./globals.css";
 
 /*
@@ -23,9 +31,79 @@ const bodyFallback = Mulish({
 });
 
 export const metadata: Metadata = {
-  title: "Consumer Attorneys | Nationwide Consumer Protection Law Firm",
-  description:
-    "We're a Nationwide Consumer Protection Law Firm. No out-of-pocket fees. If corporate bullies got your credit report, background check, or debt collection wrong, we fight for correction and compensation.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: SITE_TITLE,
+    template: `%s | ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  category: "legal services",
+  keywords: [
+    "consumer protection lawyer",
+    "FCRA attorney",
+    "FDCPA attorney",
+    "credit report error lawyer",
+    "background check error",
+    "tenant screening mistake",
+    "insurance report error",
+    "debt collection harassment",
+    "no out-of-pocket fees",
+    "Flushing NY consumer attorney",
+    "nationwide consumer protection law firm",
+  ],
+  alternates: {
+    canonical: "/",
+    languages: {
+      "en-US": "/",
+    },
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "/",
+    siteName: SITE_NAME,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
+  appleWebApp: {
+    capable: true,
+    title: SITE_NAME,
+    statusBarStyle: "black-translucent",
+  },
+  other: {
+    "geo.region": "US-NY",
+    "geo.placename": "Flushing",
+    "geo.position": "40.7372;-73.8244",
+    ICBM: "40.7372, -73.8244",
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#0f0829",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -44,7 +122,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <link rel="preconnect" href="https://use.typekit.net" />
         <link rel="stylesheet" href="https://use.typekit.net/vbf5qap.css" />
       </head>
-      <body>{children}</body>
+      <body>
+        <JsonLd data={jsonLdGraph()} />
+        {children}
+      </body>
     </html>
   );
 }

@@ -43,8 +43,12 @@ export default function TrustGallery() {
   }, []);
 
   return (
-    <div className={styles.gallery} ref={galleryRef}>
-      <div className={`${styles.item} ${styles.photoShort}`}>
+    <section aria-labelledby="results-heading">
+      <h2 id="results-heading" className="srOnly">
+        Nationwide results for consumer protection clients
+      </h2>
+      <div className={styles.gallery} ref={galleryRef}>
+        <div className={`${styles.item} ${styles.photoShort}`}>
         <Image
           src="/images/hero-meeting.jpg"
           alt="Consumer Attorneys team member presenting to clients"
@@ -95,7 +99,7 @@ export default function TrustGallery() {
           <span />
         </div>
         <div className={styles.statCardContent}>
-          <span className={styles.statNumber}>$100M+</span>
+          <span className={styles.statNumber}>$100MM+</span>
           <span className={styles.statLabel}>Recovered for clients</span>
         </div>
       </div>
@@ -109,6 +113,7 @@ export default function TrustGallery() {
           className={styles.photo}
         />
       </div>
-    </div>
+      </div>
+    </section>
   );
 }

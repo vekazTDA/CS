@@ -4,7 +4,7 @@ import styles from "./Navigation.module.css";
 export default function Navigation() {
   return (
     <header className={styles.nav}>
-      <a href="#" className={styles.logo} aria-label="Consumer Attorneys home">
+      <a href="/" className={styles.logo} aria-label="Consumer Attorneys home">
         <Image
           src="/icons/nav-logo.svg"
           alt="Consumer Attorneys"
@@ -13,7 +13,11 @@ export default function Navigation() {
           priority
         />
       </a>
-      <a href="tel:+18667584530" className={styles.phoneButton}>
+      <a
+        href="tel:+18667584530"
+        className={styles.phoneButton}
+        aria-label="Call Consumer Attorneys at (866) 758-4530"
+      >
         <Image
           src="/icons/nav-phone.svg"
           alt=""

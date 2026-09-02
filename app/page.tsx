@@ -13,26 +13,31 @@ import styles from "./page.module.css";
 export default function Home() {
   return (
     <div className={styles.page}>
+      <a href="#main-content" className="skipLink">
+        Skip to main content
+      </a>
       <div className={styles.glowTop} aria-hidden="true" />
       <div className={styles.glowMid} aria-hidden="true" />
 
       <Navigation />
-      <Hero />
-      <TrustGallery />
-      <LeadForm />
+      <main id="main-content">
+        <Hero />
+        <TrustGallery />
+        <LeadForm />
 
-      <div className={styles.lightSection}>
-        <WhatWeFight />
-        <CtaBanner />
-      </div>
+        <div className={styles.lightSection}>
+          <WhatWeFight />
+          <CtaBanner />
+        </div>
 
-      <HowItWorks />
-      <Testimonials />
+        <HowItWorks />
+        <Testimonials />
 
-      <div className={styles.darkSection}>
-        <MeetTheTeam />
-        <SiteFooter />
-      </div>
+        <div className={styles.darkSection}>
+          <MeetTheTeam />
+          <SiteFooter />
+        </div>
+      </main>
     </div>
   );
 }

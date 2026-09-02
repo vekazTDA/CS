@@ -80,8 +80,14 @@ export default function WhatWeFight() {
   }
 
   return (
-    <section className={styles.section}>
-      <h2 className={styles.heading}>What We Fight</h2>
+    <section
+      id="what-we-fight"
+      className={styles.section}
+      aria-labelledby="what-we-fight-heading"
+    >
+      <h2 id="what-we-fight-heading" className={styles.heading}>
+        What We Fight
+      </h2>
       <p className={styles.intro}>
         We hold credit bureaus, background check companies, and debt collectors
         accountable under federal laws such as the Fair Credit Reporting Act (FCRA) and

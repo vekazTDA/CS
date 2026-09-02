@@ -64,7 +64,7 @@ export default function MeetTheTeam() {
     );
 
   return (
-    <section className={styles.section}>
+    <section id="meet-the-team" className={styles.section}>
       <h2 className={styles.heading}>Meet the team</h2>
       <p className={styles.intro}>
         We are real attorneys who fight for people every single day.

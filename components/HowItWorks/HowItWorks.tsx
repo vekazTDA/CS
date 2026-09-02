@@ -61,11 +61,10 @@ export default function HowItWorks() {
   }
 
   return (
-    <section className={styles.section}>
+    <section id="how-it-works" className={styles.section}>
       <h2 className={styles.heading}>How it works</h2>
       <p className={styles.intro}>
-        We handle the disputes, demands, and lawsuits. You never talk to them again, and
-        we fight to get you paid.
+        Only three steps and zero cost. We hold them accountable.
       </p>
 
       <div className={styles.layout}>

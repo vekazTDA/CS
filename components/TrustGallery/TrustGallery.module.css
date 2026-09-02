@@ -32,6 +32,17 @@
   height: 320px;
 }
 
+/*
+ * Centre the man on the crossed arms. Figma places this photo 462px wide inside the
+ * 199px card at x=-189, so the visible window is 40.9%-84% of the source rather than
+ * the 29%-71% a default 50% crop gives. 189 / (462 - 199) = 71.9%, and the fraction
+ * holds at any card size because it is a share of the horizontal overflow. There is no
+ * vertical overflow — cover scales this 3:2 source to the card's height exactly.
+ */
+.photoTall .photo {
+  object-position: 71.9% 50%;
+}
+
 .photoWide {
   flex: 0 0 239px;
   max-width: 239px;

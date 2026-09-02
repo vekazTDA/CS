@@ -309,3 +309,21 @@
     font-size: 16px;
   }
 }
+
+@media (max-width: 640px) {
+  /*
+   * The meeting tile deliberately hangs 13.6% of the collage width past the panel's
+   * left edge, so the real composition is 113.6% wide, not 100%. Once the collage
+   * fills the column that overhang lands at x=-24px and the screen cuts it off — it
+   * is clipped at any viewport under ~550px.
+   *
+   * Sizing the panel to 88% and pushing it right by the remaining 12% makes the whole
+   * composition, overhang included, exactly fill the content box. Nothing is clipped,
+   * the tile keeps hanging off the panel as designed, and the margins stay even
+   * because the section's own 24px padding sits on both sides.
+   */
+  .collage {
+    width: 88%;
+    margin: 0 0 0 12%;
+  }
+}

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Navigation from "@/components/Navigation/Navigation";
 import Hero from "@/components/Hero/Hero";
 import TrustGallery from "@/components/TrustGallery/TrustGallery";
@@ -21,8 +22,19 @@ export default function Home() {
 
       <Navigation />
       <main id="main-content">
-        <Hero />
-        <TrustGallery />
+        <div className={styles.heroBand}>
+          <Image
+            src="/icons/CA-LP-Background.png"
+            alt=""
+            fill
+            sizes="100vw"
+            className={styles.heroBandBackdrop}
+            aria-hidden="true"
+            priority
+          />
+          <Hero />
+          <TrustGallery />
+        </div>
         <LeadForm />
 
         <div className={styles.lightSection}>

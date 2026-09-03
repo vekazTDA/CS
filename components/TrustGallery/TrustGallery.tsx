@@ -44,14 +44,6 @@ export default function TrustGallery() {
 
   return (
     <section className={styles.section} aria-labelledby="results-heading">
-      <Image
-        src="/icons/CA-LP-Background.png"
-        alt=""
-        fill
-        sizes="100vw"
-        className={styles.backdrop}
-        aria-hidden="true"
-      />
       <h2 id="results-heading" className="srOnly">
         Nationwide results for consumer protection clients
       </h2>

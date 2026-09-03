@@ -4,6 +4,19 @@
   padding-top: 24px;
 }
 
+/* One continuous crop behind the hero, the gallery, and the space between. */
+.heroBand {
+  position: relative;
+  z-index: 5;
+}
+
+.heroBandBackdrop {
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+  z-index: 0;
+}
+
 .glowTop {
   position: absolute;
   top: -260px;

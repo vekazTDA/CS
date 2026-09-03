@@ -50,23 +50,23 @@
 @media (max-width: 640px) {
   .nav {
     width: calc(100% - 64px);
-    gap: 12px;
+    gap: 8px;
     padding: 10px 10px 10px 14px;
   }
 
   .logo img {
-    height: 18px;
+    height: 24px;
   }
 
   .phoneButton {
-    gap: 6px;
-    padding: 6px 10px;
+    gap: 8px;
+    padding: 8px 14px;
     border-radius: 7px;
-    font-size: 11px;
+    font-size: 13px;
   }
 
   .phoneButton img {
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
   }
 }

@@ -124,6 +124,7 @@
   font-weight: 600;
   font-size: 14px;
   letter-spacing: -0.01em;
+  text-transform: uppercase;
   transition: filter 0.15s ease;
 }
 

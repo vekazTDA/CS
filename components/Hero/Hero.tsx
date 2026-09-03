@@ -16,13 +16,16 @@ export default function Hero() {
         we fight to protect <span className={styles.accent}>your rights</span>.
       </h1>
 
-      <p className={styles.subcopy}>
-        We&rsquo;re a Nationwide Consumer Protection Law Firm. No out-of-pocket fees.
-        <br />
-        A credit report error. A background check mix-up. A tenant screening mistake. An
-        insurance report that got it wrong. A debt collector who overstepped. Corporate
-        bullies don&rsquo;t stand a chance against us.
-      </p>
+      <div className={styles.subcopy}>
+        <p>
+          We&rsquo;re a Nationwide Consumer Protection Law Firm. No out-of-pocket fees.
+        </p>
+        <p>
+          A credit report error. A background check mix-up. A tenant screening mistake. An
+          insurance report that got it wrong. A debt collector who overstepped. Corporate
+          bullies don&rsquo;t stand a chance against us.
+        </p>
+      </div>
 
       <a href="#start-your-case" className={styles.cta}>
         <span>Get a free consultation</span>

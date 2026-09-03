@@ -326,4 +326,8 @@
     width: 88%;
     margin: 0 0 0 12%;
   }
+
+  .cta {
+    align-self: center;
+  }
 }

@@ -53,6 +53,10 @@
   opacity: 0.8;
 }
 
+.subcopy p {
+  margin: 0;
+}
+
 .cta {
   display: inline-flex;
   align-items: center;
@@ -65,6 +69,7 @@
   font-weight: 600;
   font-size: 16px;
   letter-spacing: -0.01em;
+  text-transform: uppercase;
   color: var(--color-accent);
   transition: background 0.15s ease;
 }
@@ -99,12 +104,10 @@
     display: none;
   }
 
-  /* The design drops the green highlight on mobile. */
-  .accent {
-    color: inherit;
-  }
-
   .subcopy {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     max-width: 319px;
     margin-top: 31px;
     font-size: 13px;

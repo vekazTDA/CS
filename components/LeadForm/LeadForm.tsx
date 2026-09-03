@@ -39,7 +39,7 @@ export default function LeadForm() {
 
         {submitted ? (
           <p className={styles.confirmation} role="status">
-            Tell us what happened. A member of our team will reach out within one business day.
+            Thank you - Our team will get back to you soon.
           </p>
         ) : (
           <form
@@ -106,7 +106,7 @@ export default function LeadForm() {
               </label>
               <button type="submit" className={styles.submit}>
                 <span className={styles.submitDesktop}>Submit</span>
-                <span className={styles.submitMobile}>Send message</span>
+                <span className={styles.submitMobile}>Submit</span>
               </button>
             </div>
           </form>

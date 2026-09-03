@@ -2,39 +2,41 @@ import Image from "next/image";
 import styles from "./SiteFooter.module.css";
 
 const SOCIALS = [
-  { name: "Instagram", icon: "/icons/social-instagram.svg", href: "#" },
-  { name: "LinkedIn", icon: "/icons/social-linkedin.svg", href: "#" },
-  { name: "TikTok", icon: "/icons/social-tiktok.svg", href: "#" },
+  {
+    name: "Instagram",
+    icon: "/icons/social-instagram.svg",
+    href: "https://www.instagram.com/theconsumerattorneys/",
+  },
+  { name: "LinkedIn", icon: "/icons/social-linkedin.svg", href: "https://www.linkedin.com/company/consumer-attorneys-plc" },
+  { name: "TikTok", icon: "/icons/social-tiktok.svg", href: "https://www.tiktok.com/@consumerattorneys" },
 ];
 
 export default function SiteFooter() {
   return (
     <footer className={styles.footer}>
       <div className={styles.inner}>
-        <hr className={styles.rule} />
-
-        <div className={styles.wordmark} aria-label="Consumer Attorneys">
-          <Image
-            src="/images/wordmark-consumer.svg"
-            alt=""
-            width={731}
-            height={99}
-            aria-hidden="true"
-          />
-          <Image
-            src="/images/wordmark-attorneys.svg"
-            alt=""
-            width={731}
-            height={107}
-            aria-hidden="true"
-          />
+        <div className={styles.lockup}>
+          <div className={styles.wordmark}>
+            <Image
+              src="/icons/Group1000004437.png"
+              alt="Consumer Attorneys"
+              width={1485}
+              height={103}
+            />
+          </div>
         </div>
 
         <div className={styles.panel}>
           <ul className={styles.socials}>
             {SOCIALS.map((social) => (
               <li key={social.name}>
-                <a href={social.href} aria-label={social.name}>
+                <a
+                  href={social.href}
+                  aria-label={social.name}
+                  {...(social.href.startsWith("http")
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
+                >
                   <Image src={social.icon} alt="" width={33} height={33} />
                 </a>
               </li>

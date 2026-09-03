@@ -1,6 +1,19 @@
-.gallery {
+.section {
   position: relative;
   z-index: 5;
+  width: 100%;
+}
+
+.backdrop {
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.gallery {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: flex-end;
   justify-content: center;

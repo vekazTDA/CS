@@ -9,23 +9,16 @@
   margin: 0 auto;
 }
 
-.rule {
-  height: 0;
-  margin: 0;
-  border: none;
-  border-top: 1px solid rgba(199, 214, 254, 0.25);
-}
-
-/* Two exported lockups sitting side by side, scaling together with the page. */
-.wordmark {
-  display: flex;
-  align-items: flex-end;
-  gap: 1.5%;
+.lockup {
   margin-top: 25px;
+  padding: 18px 0;
+  border-top: 1px solid rgba(199, 214, 254, 0.25);
+  border-bottom: 1px solid rgba(199, 214, 254, 0.25);
 }
 
 .wordmark img {
-  width: 50%;
+  display: block;
+  width: 100%;
   height: auto;
 }
 
@@ -169,19 +162,9 @@
     padding: 0 32px 40px;
   }
 
-  .rule {
-    display: none;
-  }
-
-  .wordmark {
-    flex-direction: column;
-    gap: 11px;
-    /* Gap to the CTA above is padding-bottom on the team section, not a margin here. */
+  .lockup {
     margin-top: 0;
-  }
-
-  .wordmark img {
-    width: 100%;
+    padding: 12px 0;
   }
 
   /* Not present in the mobile frame — see the note in the handover. */
@@ -193,7 +176,7 @@
     flex-direction: column;
     align-items: center;
     gap: 8px;
-    margin-top: 6px;
+    margin-top: 30px;
     font-size: 12px;
   }
 

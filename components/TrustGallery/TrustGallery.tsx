@@ -43,14 +43,22 @@ export default function TrustGallery() {
   }, []);
 
   return (
-    <section aria-labelledby="results-heading">
+    <section className={styles.section} aria-labelledby="results-heading">
+      <Image
+        src="/icons/CA-LP-Background.png"
+        alt=""
+        fill
+        sizes="100vw"
+        className={styles.backdrop}
+        aria-hidden="true"
+      />
       <h2 id="results-heading" className="srOnly">
         Nationwide results for consumer protection clients
       </h2>
       <div className={styles.gallery} ref={galleryRef}>
         <div className={`${styles.item} ${styles.photoShort}`}>
         <Image
-          src="/images/hero-meeting.jpg"
+          src="/images/team/GenLPImage1.png"
           alt="Consumer Attorneys team member presenting to clients"
           fill
           sizes="240px"
@@ -83,7 +91,7 @@ export default function TrustGallery() {
       {/* The card the mobile scroller opens on — see centreOnFeatured. */}
       <div className={`${styles.item} ${styles.photoWide}`} data-featured="true">
         <Image
-          src="/images/hero-street-walk.jpg"
+          src="/images/team/GenLPImage2.png"
           alt="Consumer Attorneys legal team"
           fill
           sizes="239px"
@@ -106,7 +114,7 @@ export default function TrustGallery() {
 
       <div className={`${styles.item} ${styles.photoTall}`}>
         <Image
-          src="/images/hero-team-portrait.jpg"
+          src="/images/team/GenLPImage3.png"
           alt="Consumer Attorneys legal team portrait"
           fill
           sizes="200px"

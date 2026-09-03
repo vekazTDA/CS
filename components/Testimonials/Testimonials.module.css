@@ -152,11 +152,19 @@
     justify-content: flex-start;
     /* Every card takes the height of the tallest, so copy length can't change it. */
     align-items: stretch;
-    width: auto;
+    width: 100%;
     max-width: none;
     margin-top: 35px;
     gap: 13px;
-    transform: translateX(calc(45px - var(--active, 0) * 325px));
+    /*
+     * Center the active card in the viewport. The old 45px inset matched the 402px
+     * frame ((402 - 312) / 2); Pro Max widths (428–440) left that looking left-heavy.
+     */
+    --card-width: 312px;
+    --card-pitch: 325px;
+    transform: translateX(
+      calc((100% - var(--card-width)) / 2 - var(--active, 0) * var(--card-pitch))
+    );
     transition: transform 0.45s ease;
   }
 

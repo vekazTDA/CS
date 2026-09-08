@@ -318,9 +318,9 @@
 
 /*
  * --- mobile (design frame 402px) ---
- * The row is wider than the screen and swipes horizontally, bleeding off both
- * edges. It opens centred on the wide card — TrustGallery sets the initial
- * scrollLeft, since CSS can't centre a scroll container's content on load.
+ * Horizontal scroller with side insets so the first and last cards don't sit flush
+ * against the screen edge. Opens centred on the wide card — TrustGallery sets the
+ * initial scrollLeft, since CSS can't centre a scroll container's content on load.
  * Everything below is the desktop geometry at the design's 0.708 scale.
  */
 @media (max-width: 640px) {
@@ -335,7 +335,7 @@
     width: auto;
     max-width: none;
     margin-top: 42px;
-    padding: 0;
+    padding: 0 24px;
     gap: 17px;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
@@ -362,8 +362,8 @@
    */
 
   .photoShort {
-    width: 169px;
-    height: 141px;
+    width: 141px;
+    height: 218px;
   }
 
   .photoTall {

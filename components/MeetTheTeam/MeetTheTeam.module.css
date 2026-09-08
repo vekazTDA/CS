@@ -160,7 +160,8 @@
  * --- mobile (design frame 402px) ---
  * The row becomes a one-at-a-time carousel opening on Daniel Cohen. Portraits run
  * at the design's 0.7 scale (238px circles) and the track steps one pitch
- * (238px + 20px gap) at a time, keeping the active member centred at x=82.
+ * (238px + 20px gap) at a time. The active member is centred from the viewport —
+ * the old 82px inset matched the 402px frame; on 414 / Pro Max it sat left of centre.
  */
 @media (max-width: 640px) {
   .section {
@@ -190,10 +191,15 @@
     flex-wrap: nowrap;
     justify-content: flex-start;
     align-items: flex-start;
+    width: 100%;
     max-width: none;
     margin-top: 27px;
     gap: 20px;
-    transform: translateX(calc(82px - var(--active, 0) * 258px));
+    --member-width: 238px;
+    --member-pitch: 258px;
+    transform: translateX(
+      calc((100% - var(--member-width)) / 2 - var(--active, 0) * var(--member-pitch))
+    );
     transition: transform 0.45s ease;
   }
 

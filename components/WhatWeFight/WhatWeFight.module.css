@@ -31,6 +31,28 @@
   width: min(471px, 100%);
   height: 507px;
   margin: 64px auto 0;
+  /* Deal arc must not be clipped by the deck box itself. */
+  overflow: visible;
+  /*
+   * Horizontal deal travel as a share of card width. Kept short enough that
+   * `.page { overflow: clip }` does not hide the card on ~1280px+ desktop.
+   */
+  --deal-x: -50%;
+  /*
+   * next travels out AND back (see dealOut); prev is the single inward leg only, so
+   * it runs on the shorter of the two or it reads as sluggish. Timings come from the
+   * Figma reference capture: ~710ms end to end, ~69% of it the outward leg.
+   */
+  /*
+   * Do not drop --deal-ms below ~657ms. The incoming front card reaches opaque white via
+   * `.card { transition: background 0.45s }`, and that has to finish before dealOut's
+   * z step at 68.5% hands the centre over to it (0.685 x 700ms = 479ms vs 450ms). Any
+   * shorter and the blank-slab flash comes back with nothing in dealOut having changed.
+   */
+  --deal-ms: 700ms;
+  --deal-in-ms: 480ms;
+  /* Declared once here rather than relying on the fallback repeated in the keyframes. */
+  --deal-drop: 42px;
 }
 
 .card {
@@ -59,26 +81,38 @@
 }
 
 /*
- * Deal animation. The front card swings out to the left, arcing 42px down and
- * rotating counter-clockwise, then travels back and slides in at the BACK of the
- * deck, taking on the back card's tilt and translucency. z-index drops at the
- * far-left apex, while the card is clear of the stack, so the return leg passes
- * behind the other cards. "Prev" plays this in reverse.
+ * Deal animation — out to an apex, then home to the back of the fan, where it stays
+ * VISIBLE as the new bottom wedge. It does not dissolve: fading it to nothing is
+ * what made the arrival invisible, since `.phantom` was already holding that slot
+ * looking identical, so the card read as simply disappearing.
+ *
+ * The z-index below is the value for the outward leg only; the keyframes step it
+ * once, at the apex, so the return travels behind the stack. See @keyframes dealOut.
  */
 .dealOut {
-  animation: dealOut 950ms linear forwards;
+  z-index: 99;
+  /*
+   * The arc is derived from the card's own landing angle rather than being fixed, so
+   * rotation runs 0deg -> apex -> landing with no reversal. A fixed counter-clockwise
+   * apex would mean a ~27deg swing back for a card whose landing angle is positive.
+   * `--apex-rotate` comes from the TSX (`apexFor`) because the 2deg overshoot has to
+   * follow the angle's sign, which CSS cannot express portably. For the -14.35deg card
+   * the apex is -16.35deg — the original arc to within 0.02deg.
+   */
+  animation: dealOut var(--deal-ms, 700ms) cubic-bezier(0.32, 0, 0.24, 1) forwards;
 }
 
 /*
- * Prev mirrors only dealOut's OUTWARD leg, not the whole path. Mirroring the lot
- * would start the card at the centre and swing it out left before bringing it
- * home — vacating the centre while the outgoing card is busy fading to the
- * back-of-deck style, which leaves a blank stack on screen. One leg instead: the
- * card starts off to the left and travels straight in, so something solid and
- * readable is always heading for the centre.
+ * Prev travels the same path in reverse: same curve and the same pose at the outer
+ * end, fading up instead of out. It runs shorter than next (`--deal-in-ms` vs
+ * `--deal-ms`) because it is only the inward leg — next also has the return leg to
+ * cover, and matching the two durations makes prev read as sluggish.
+ *
+ * The front slot it is heading for is held by `.phantom` while it flies, which is
+ * what removed the old objection to mirroring ("vacating the centre leaves a blank
+ * stack on screen").
  */
 .dealIn {
-  background: #ffffff;
   z-index: 99;
   /*
    * .card carries `transition: background 0.45s`, which would otherwise fade this
@@ -86,13 +120,7 @@
    * owns the transform, so dropping the transition outright is safe.
    */
   transition: none;
-  /*
-   * Same 600ms and same curve as dealOut's outward leg — deliberately NOT the
-   * time-reversed curve. Reversing is the correct mirror on paper, but it flips
-   * the rhythm: the card would whip away immediately and then crawl, reading as
-   * much faster than next. Matching the curve keeps both directions feeling alike.
-   */
-  animation: dealIn 600ms cubic-bezier(0.95, 0, 0.2, 1) forwards;
+  animation: dealIn var(--deal-in-ms, 480ms) cubic-bezier(0.32, 0, 0.24, 1) forwards;
 }
 
 /* The copy rides in with the card rather than fading up once it lands. */
@@ -104,57 +132,193 @@
 
 @keyframes dealIn {
   from {
-    transform: translate(-113%, var(--deal-drop, 42px)) rotate(-16.33deg);
+    /*
+     * Lifts off from the pose it was actually sitting in — its own back-slot angle,
+     * 2deg further out — rather than a fixed angle every time. Now that each card holds
+     * a different angle at the back, a constant start pose would make the card jump
+     * before it moved.
+     */
+    transform: translate(var(--deal-x, -50%), var(--deal-drop, 42px))
+      rotate(var(--apex-rotate, -16.35deg));
+    background: #ffffff;
+    opacity: 0;
+  }
+  18% {
+    opacity: 1;
   }
   to {
     transform: translate(0, 0) rotate(0deg);
+    background: #ffffff;
+    opacity: 1;
   }
 }
 
 /*
- * The outward leg is the Figma transition verbatim: 600ms (63% of 950ms) on its own
- * easing, -113% across, 42px down, ending at -16.33deg. The apex and return are ours —
- * Figma has no timing for them, since there the card simply reappears at the back of
- * the deck in the next variant rather than travelling home.
+ * Out, then home to the back of the deck — the shape the Figma reference actually
+ * has. Frame-by-frame there, the card slides left and rotates counter-clockwise for
+ * roughly the first 69%, reaches an apex where it is partly off-frame, then travels
+ * back to the right BEHIND the stack, ghosting out as it merges into it.
+ *
+ * The return leg is why `z-index` steps here. It steps exactly ONCE, at the apex:
+ * discrete, so it is one paint-order recalculation rather than one per frame, and
+ * placed where the card is furthest from the stack and already half faded, so the
+ * reorder is masked. Above the stack on the way out (it is the card being dealt off
+ * the top), below everything on the way back (it is tucking in behind).
  */
 @keyframes dealOut {
   0% {
     transform: translate(0, 0) rotate(0deg);
     background: #ffffff;
+    opacity: 1;
     z-index: 99;
-    animation-timing-function: cubic-bezier(0.95, 0, 0.2, 1);
+    animation-timing-function: cubic-bezier(0.3, 0, 0.2, 1);
   }
-  63% {
-    transform: translate(-113%, var(--deal-drop, 42px)) rotate(-16.33deg);
+  45% {
+    /*
+     * Stays fully opaque with its copy still on it for the first part of the slide,
+     * as in the reference — this card is readable on its way out, not a blank slab.
+     */
+    transform: translate(calc(var(--deal-x, -50%) * 0.72), calc(var(--deal-drop, 42px) * 0.78))
+      rotate(calc(var(--land-rotate, -14.35deg) * 0.82));
     background: #ffffff;
+    opacity: 1;
     z-index: 99;
   }
-  67% {
-    transform: translate(-113%, var(--deal-drop, 42px)) rotate(-16.33deg);
+  60% {
+    /*
+     * From here it thins as its copy goes. The two have to fall together: the card
+     * still overlaps the deck centre until the apex, so fading the copy while the
+     * card stayed opaque left an empty white slab covering the incoming card — the
+     * blank flash. Thinning it instead turns that stretch into a crossfade, with the
+     * new front card reading through.
+     */
+    transform: translate(calc(var(--deal-x, -50%) * 0.88), calc(var(--deal-drop, 42px) * 0.9))
+      rotate(calc(var(--land-rotate, -14.35deg) * 0.93));
     background: #ffffff;
-    z-index: 0;
-    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0.72;
+    z-index: 99;
+  }
+  68% {
+    /* Apex. Fading here is what hides the z step on the very next frame. */
+    transform: translate(var(--deal-x, -50%), var(--deal-drop, 42px))
+      rotate(var(--apex-rotate, -16.35deg));
+    background: #ffffff;
+    opacity: 0.45;
+    z-index: 99;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.3, 1);
+  }
+  69% {
+    /* The one z step, at the apex pose — nothing moves across this boundary. */
+    transform: translate(var(--deal-x, -50%), var(--deal-drop, 42px))
+      rotate(var(--apex-rotate, -16.35deg));
+    background: #ffffff;
+    opacity: 0.45;
+    /*
+     * Below every resting card (depths 0-3 are z 5-2) and, by DOM order, below the
+     * stand-in that shares this value — but equal to this card's own resting `--z`,
+     * so the hand-off frame changes no paint order at all.
+     */
+    z-index: 1;
   }
   100% {
-    /* Lands exactly on the depth-4 resting style, so removing the class is seamless. */
-    transform: translate(0, 0) rotate(-14.35deg);
+    /*
+     * Lands ON the back slot and stays visible as the new bottom wedge — opacity 1
+     * over the slot's own translucent white. The angle is the card's OWN landing
+     * angle, not a fixed back-slot value, which is what stops every deal looking
+     * identical. It matches this card's resting `--rotate` exactly (the TSX passes
+     * the same value to both), so the landed state and the resting state are the
+     * same and removing the class is a no-op — and the layer that survives that
+     * commit is the VISIBLE one, since `.phantomBack` is already at 0.
+     */
+    transform: translate(0, 0) rotate(var(--land-rotate, -14.35deg));
     background: rgba(255, 255, 255, 0.3);
-    z-index: 0;
+    opacity: 1;
+    z-index: 1;
   }
 }
 
-/* Copy stays legible on the way out, then clears before the card rejoins the stack. */
+/*
+ * Copy clears in the first third, well before the card has travelled far enough to
+ * read as a second headline beside the one being revealed underneath it. The old
+ * schedule held it to 78%, which is what produced the readable "ghost" sliding back
+ * through the stack.
+ */
+/*
+ * The outgoing copy holds at full strength for the whole outward leg and only clears
+ * AFTER the z step. Both halves of that are load-bearing:
+ *
+ * - Not before. While the flier is still in front, what a viewer reads at the deck
+ *   centre is `copy x veil + 1 x (1 - veil)`. That sums to 1 only while copy is 1;
+ *   any earlier fade digs a trough, and fading it out entirely is what produced the
+ *   blank white card — the flier still covers the centre until the apex, so a card
+ *   with no copy on it is an empty white slab over the incoming one.
+ * - Not later. From the z step the card is behind the stack and its opacity climbs
+ *   back to 1 for the landing, so copy left on it would resurface as a ghost in the
+ *   sliver that hangs outside the deck to the left.
+ *
+ * At -50% of a 471px card the apex puts the flier's right edge exactly on the deck
+ * centre, so 69% is precisely where it stops being read there. On mobile (-20% of
+ * 288px) it never clears the centre, but from 69% it is occluded by the front card
+ * and its copy sits inside the deck bounds, so nothing is exposed either way.
+ */
 .dealOut .cardContent {
-  animation: dealOutContent 950ms linear forwards;
+  animation: dealOutCopy var(--deal-ms, 700ms) linear forwards;
 }
 
-/* Holds through the outward leg and the apex (67%), then clears during the return. */
-@keyframes dealOutContent {
+@keyframes dealOutCopy {
   0%,
-  67% {
+  69% {
     opacity: 1;
   }
-  87%,
+  82%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/*
+ * The stand-in that keeps the fan five layers deep. It is inert scenery: no
+ * animation, no transition, and no backdrop-filter — the five real cards already
+ * run `blur(10px)` each, and a sixth blurred layer for the length of every click is
+ * a cost with nothing to show for it, since this layer only ever sits at a resting
+ * pose. Shadow is dropped for the same reason it matters here: the phantom is
+ * co-located with the card it stands in for, and two identical shadows composite to
+ * a visibly darker halo outside the border box where nothing can hide them.
+ */
+.phantom {
+  transition: none;
+  animation: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+  pointer-events: none;
+}
+
+/* The front-slot stand-in does need its shadow: it is the card being looked at. */
+.phantomFront {
+  box-shadow: 0 4px 40px rgba(15, 8, 41, 0.25);
+}
+
+/*
+ * The back-slot stand-in yields as the real card arrives on top of that slot. It has
+ * to hand over rather than simply persist, because two translucent whites composite
+ * as 1-(1-a1)(1-a2) — 0.3 over 0.3 is 0.51, which would brighten the very wedge the
+ * fix is about at the moment of landing.
+ *
+ * Holding until the z step keeps the slot filled for the whole outward leg (the
+ * original bug), and the fade is complementary to the flier's arrival: at the end
+ * the flier is the wedge at 0.3 and this is at 0, so the slot reads 0.3 exactly.
+ * Unmounting something already at 0 is a no-op.
+ */
+.phantomBack {
+  animation: phantomYield var(--deal-ms, 700ms) linear forwards;
+}
+
+@keyframes phantomYield {
+  0%,
+  69% {
+    opacity: 1;
+  }
   100% {
     opacity: 0;
   }
@@ -240,9 +404,44 @@
     transition: none;
   }
 
+  /*
+   * Both deal classes carry only `animation` (plus .dealIn's static z-index, which
+   * is the correct resting order for the card being promoted), so switching the
+   * animation off leaves each card rendering at its own `--z` / `--bg` — an instant,
+   * correct swap. Nothing here may set a frame-0 background or z-index statically:
+   * with no keyframes to move it, that would paint an opaque slab over the deck.
+   */
   .dealOut,
   .dealIn {
     animation: none;
+  }
+
+  /*
+   * Both deal classes raise z-index for the flight; with no flight to run, that
+   * would leave a card parked out of stacking order for the fallback timer.
+   */
+  .dealOut,
+  .dealIn {
+    z-index: var(--z);
+  }
+
+  /*
+   * With the flight instant there is no vacant slot to stand in for, and on prev the
+   * stand-in would otherwise hold the previous card's copy over the front of the
+   * deck for the length of the fallback timer.
+   */
+  .phantom {
+    display: none;
+  }
+
+  /*
+   * `data-visible` is `isActive || isDealt`, so without this the card that just went to
+   * the back keeps its copy at full opacity until the fallback timer clears `dealt` —
+   * legible text on a back-of-deck wedge for up to 840ms. Equal specificity, later in
+   * the file, so it wins.
+   */
+  .dealOut .cardContent {
+    opacity: 0;
   }
 }
 
@@ -268,6 +467,8 @@
     margin-top: 48px;
     /* Keeps the deal animation's arc proportional to the smaller card. */
     --deal-drop: 26px;
+    /* Side gutter on 414 is ~63px; -20% of 288px stays on-screen under page clip. */
+    --deal-x: -20%;
   }
 
   .card {

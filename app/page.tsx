@@ -9,6 +9,7 @@ import HowItWorks from "@/components/HowItWorks/HowItWorks";
 import Testimonials from "@/components/Testimonials/Testimonials";
 import MeetTheTeam from "@/components/MeetTheTeam/MeetTheTeam";
 import SiteFooter from "@/components/SiteFooter/SiteFooter";
+import ScrollToForm from "@/components/ScrollToForm/ScrollToForm";
 import styles from "./page.module.css";
 
 export default function Home() {
@@ -19,8 +20,8 @@ export default function Home() {
       </a>
       <div className={styles.glowTop} aria-hidden="true" />
       <div className={styles.glowMid} aria-hidden="true" />
+      <ScrollToForm />
 
-      <Navigation />
       <main id="main-content">
         <div className={styles.heroBand}>
           <Image
@@ -32,6 +33,7 @@ export default function Home() {
             aria-hidden="true"
             priority
           />
+          <Navigation />
           <Hero />
           <TrustGallery />
         </div>

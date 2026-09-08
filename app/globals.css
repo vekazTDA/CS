@@ -19,6 +19,15 @@
     BlinkMacSystemFont, sans-serif;
 
   --page-max-width: 1728px;
+  /* Sticky nav sits 24px from the top; the bar is ~48–56px. Used for hash jumps. */
+  --scroll-offset: calc(24px + 56px + 24px);
+}
+
+@media (min-width: 641px) {
+  :root {
+    /* Extra clearance so the form heading never sits under the sticky nav. */
+    --scroll-offset: calc(24px + 56px + 56px);
+  }
 }
 
 * {
@@ -29,6 +38,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: var(--scroll-offset);
 }
 
 .skipLink {

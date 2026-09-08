@@ -93,7 +93,7 @@ export function jsonLdGraph() {
         name: SITE_NAME,
         legalName: SITE_LEGAL_NAME,
         url: SITE_URL,
-        logo: `${SITE_URL}/icon`,
+        logo: `${SITE_URL}/icons/webclip-256.png`,
         image: `${SITE_URL}/opengraph-image`,
         description: SITE_DESCRIPTION,
         slogan: SITE_TAGLINE,

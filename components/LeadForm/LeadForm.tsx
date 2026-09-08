@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import styles from "./LeadForm.module.css";
 
 const ERROR_TYPES = [
@@ -38,9 +39,30 @@ export default function LeadForm() {
         </div>
 
         {submitted ? (
-          <p className={styles.confirmation} role="status">
-            Thank you - Our team will get back to you soon.
-          </p>
+          <div className={styles.confirmation} role="status">
+            <div className={styles.confirmationCopy}>
+              <Image
+                src="/icons/Group 1000004426.png"
+                alt=""
+                width={68}
+                height={68}
+                className={styles.confirmationIcon}
+              />
+              <div className={styles.confirmationText}>
+                <p className={styles.confirmationTitle}>You&apos;re all set.</p>
+                <p className={styles.confirmationBody}>
+                  Thank you! Our team will get back to you soon.
+                </p>
+              </div>
+            </div>
+            <button
+              type="button"
+              className={styles.confirmationAgain}
+              onClick={() => setSubmitted(false)}
+            >
+              Submit another form
+            </button>
+          </div>
         ) : (
           <form
             className={styles.form}

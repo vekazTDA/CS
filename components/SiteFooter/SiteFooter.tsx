@@ -22,6 +22,14 @@ export default function SiteFooter() {
               alt="Consumer Attorneys"
               width={1485}
               height={103}
+              className={styles.wordmarkDesktop}
+            />
+            <Image
+              src="/icons/consumer attoryneys footer logo mobile.svg"
+              alt="Consumer Attorneys"
+              width={339}
+              height={105}
+              className={styles.wordmarkMobile}
             />
           </div>
         </div>

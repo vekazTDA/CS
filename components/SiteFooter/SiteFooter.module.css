@@ -12,14 +12,19 @@
 .lockup {
   margin-top: 25px;
   padding: 18px 0;
-  border-top: 1px solid rgba(199, 214, 254, 0.25);
-  border-bottom: 1px solid rgba(199, 214, 254, 0.25);
 }
 
 .wordmark img {
-  display: block;
   width: 100%;
   height: auto;
+}
+
+.wordmarkDesktop {
+  display: block;
+}
+
+.wordmarkMobile {
+  display: none;
 }
 
 .panel {
@@ -165,6 +170,14 @@
   .lockup {
     margin-top: 0;
     padding: 12px 0;
+  }
+
+  .wordmarkDesktop {
+    display: none;
+  }
+
+  .wordmarkMobile {
+    display: block;
   }
 
   /* Not present in the mobile frame — see the note in the handover. */

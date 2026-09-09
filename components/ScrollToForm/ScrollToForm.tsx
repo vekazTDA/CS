@@ -10,21 +10,41 @@ function isDesktop() {
 }
 
 /*
- * Sticky nav sits at top: 24px. Hash jumps would pin the form under that bar.
- * Desktop needs more breathing room than mobile — the heading sits in the
- * section's top padding and was still landing under the logo / phone pill.
+ * Sticky nav sits at top: 24px. The "usable" viewport — the area the nav
+ * doesn't cover in its stuck position — starts where the nav's own box ends.
  */
-function navClearance() {
+function navBottom() {
   const nav = document.querySelector("header");
   const bar = nav instanceof HTMLElement ? nav.offsetHeight : 56;
-  return 24 + bar + (isDesktop() ? 56 : 24);
+  return 24 + bar;
+}
+
+/*
+ * Minimum clearance under the nav — used only by the post-scroll settle
+ * check below, as a drift-correction floor, not as a fallback target.
+ */
+function navClearance() {
+  return navBottom() + (isDesktop() ? 56 : 24);
+}
+
+/*
+ * Where the section's top should land in the viewport: centered in the
+ * space below the sticky nav. Always centers — on short viewports where the
+ * section is taller than that space, this can put the heading above the
+ * fold; that's an accepted tradeoff, not a bug.
+ */
+function targetOffset(sectionHeight: number) {
+  const usableTop = navBottom();
+  const usableHeight = window.innerHeight - usableTop;
+  return usableTop + (usableHeight - sectionHeight) / 2;
 }
 
 function scrollToForm() {
   const form = document.getElementById(FORM_ID);
   if (!form) return;
 
-  const top = form.getBoundingClientRect().top + window.scrollY - navClearance();
+  const top =
+    form.getBoundingClientRect().top + window.scrollY - targetOffset(form.offsetHeight);
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   window.scrollTo({
     top: Math.max(0, top),
@@ -35,9 +55,7 @@ function scrollToForm() {
   if (!isDesktop()) return;
   window.setTimeout(
     () => {
-      const nav = document.querySelector("header");
-      const bar = nav instanceof HTMLElement ? nav.offsetHeight : 56;
-      const clear = 24 + bar + 24;
+      const clear = navClearance();
       const formTop = form.getBoundingClientRect().top;
       if (formTop < clear) {
         window.scrollBy({ top: formTop - clear, behavior: "auto" });

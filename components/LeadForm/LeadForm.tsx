@@ -10,6 +10,7 @@ const ERROR_TYPES = [
   "Tenant screening mistake",
   "Insurance report error",
   "Debt collector harassment",
+  "Identity Theft Report Error",
   "Other",
 ];
 

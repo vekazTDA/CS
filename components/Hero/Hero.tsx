@@ -22,8 +22,9 @@ export default function Hero() {
         </p>
         <p>
           A credit report error. A background check mix-up. A tenant screening mistake. An
-          insurance report that got it wrong. A debt collector who overstepped. Corporate
-          bullies don&rsquo;t stand a chance against us.
+          insurance report that got it wrong. A debt collector who overstepped. Identity
+          theft that left a mess behind. Corporate bullies don&rsquo;t stand a chance
+          against us.
         </p>
       </div>
 

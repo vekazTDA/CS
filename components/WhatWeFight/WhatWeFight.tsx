@@ -46,6 +46,12 @@ const CARDS = [
       "Excessive calls, threats, and continued contact after you've proven the debt isn't yours are unlawful under the Fair Debt Collection Practices Act. This means you may be able to hold debt collectors accountable and get compensation.",
     icon: "/icons/icon-debt-collection.svg",
   },
+  {
+    title: "Identity Theft Errors",
+    description:
+      "Fraudulent accounts, criminal records, or medical claims tied to your name after identity theft can follow you for years. Under the Fair Credit Reporting Act, these errors must be corrected. We clear your name and pursue what the fraud cost you.",
+    icon: "/icons/icon-credit-reporting.svg",
+  },
 ];
 
 /*
@@ -55,11 +61,10 @@ const CARDS = [
  * reaches the front. Every card used to land on the same -14.35deg, which is what made
  * the deal read as mechanical.
  *
- * Seven entries, coprime with the five cards, so landings do not realign with the card
- * cycle for 35 deals. The last four values are today's fan, so `cursor === 0` reproduces
- * the original resting layout exactly.
+ * Seven entries, coprime with the six cards, so landings do not realign with the card
+ * cycle for 42 deals.
  *
- * The four visible wedges are always a window of four consecutive entries, so the values
+ * The five visible wedges are always a window of five consecutive entries, so the values
  * were picked to keep every one of the seven windows well spread: minimum separation
  * between any two wedges is 3.52deg (below roughly 2.5deg two wedges read as one doubled
  * edge), and every window straddles 0deg so the fan never leans entirely one way. The
@@ -73,6 +78,7 @@ const DEPTH_BG = [
   "rgba(255, 255, 255, 0.3)",
   "rgba(255, 255, 255, 0.3)",
   "rgba(255, 255, 255, 0.2)",
+  "rgba(255, 255, 255, 0.3)",
   "rgba(255, 255, 255, 0.3)",
 ];
 
@@ -94,14 +100,14 @@ const FRONT_DEPTH = 0;
 /*
  * A card's angle is derivable from one number, so no per-card table is needed.
  *
- * `cursor` counts net deals. The most recent landing sits at the back (depth 4), the one
- * before it at depth 3, and so on, so the card at depth `d` landed `BACK_DEPTH - d` deals
+ * `cursor` counts net deals. The most recent landing sits at the back (depth 5), the one
+ * before it at depth 4, and so on, so the card at depth `d` landed `BACK_DEPTH - d` deals
  * ago and takes `LANDING_ANGLES[cursor - (BACK_DEPTH - d)]`.
  *
  * Two properties fall out of that, and both are requirements rather than happy accidents:
  *
- * - A card KEEPS its angle as it rises. At cursor k a card at depth 3 has ordinal k-1;
- *   one deal later it is at depth 2 with cursor k+1, ordinal (k+1)-(4-2) = k-1. Same
+ * - A card KEEPS its angle as it rises. At cursor k a card at depth 4 has ordinal k-1;
+ *   one deal later it is at depth 3 with cursor k+1, ordinal (k+1)-(5-3) = k-1. Same
  *   ordinal, same angle. Only `--z` and `--bg` change as it moves up, which is also what
  *   keeps the background wedges from visibly re-rotating mid-transition.
  * - prev EXACTLY undoes next, because the angle is a pure function of the cursor rather
@@ -270,11 +276,11 @@ export default function WhatWeFight() {
         })}
 
         {/*
-         * Phantom layer. Five cards fill five fan slots, so the moment one is in
+         * Phantom layer. Six cards fill six fan slots, so the moment one is in
          * flight the fan is a layer short — that missing layer was the bug: the
          * -14.35deg back wedge (the most visible peeking corner) vanished for the
          * whole flight. The phantom stands in for whichever slot the flight
-         * vacates, so all five slots are occupied on every frame.
+         * vacates, so all six slots are occupied on every frame.
          *
          * next vacates the BACK slot: a blank translucent wedge is enough, and it
          * is indistinguishable from the real card it stands in for.

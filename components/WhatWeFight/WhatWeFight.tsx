@@ -50,7 +50,7 @@ const CARDS = [
     title: "Identity Theft Errors",
     description:
       "Fraudulent accounts, criminal records, or medical claims tied to your name after identity theft can follow you for years. Under the Fair Credit Reporting Act, these errors must be corrected. We clear your name and pursue what the fraud cost you.",
-    icon: "/icons/icon-credit-reporting.svg",
+    icon: "/icons/icon-identity-theft.svg",
   },
 ];
 

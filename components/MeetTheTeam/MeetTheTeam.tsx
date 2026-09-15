@@ -18,11 +18,12 @@ type PortraitStyle = CSSProperties & {
  */
 const TEAM = [
   {
-    name: "Emanuel Kataev",
-    role: "General Counsel",
-    photo: "/images/team/emanuel-kataev.png",
+    name: "Jonathan Krikheli",
+    role: "Attorney",
+    photo: "/images/team/jonathan-krikheli.png",
     raised: false,
-    frame: { left: "0.29%", top: "3.53%", width: "99.4%", height: "99.4%" },
+    /* Near-square crop (340x321), same as Daniel Cohen's — see the note below. */
+    frame: { left: "0%", top: "0%", width: "100%", height: "100%" },
   },
   {
     name: "Daniel Cohen",
@@ -30,8 +31,8 @@ const TEAM = [
     photo: "/images/team/daniel-cohen-2.png",
     raised: true,
     /*
-     * This crop is near-square already (340x327), unlike the others' vertical
-     * crops, so a plain fill covers the circle with almost no zoom — `cover` +
+     * This crop is near-square already (340x327), unlike Moshe's vertical
+     * crop, so a plain fill covers the circle with almost no zoom — `cover` +
      * `object-position: bottom` (set in the CSS) handles the ~4% excess width.
      */
     frame: { left: "0%", top: "0%", width: "100%", height: "100%" },

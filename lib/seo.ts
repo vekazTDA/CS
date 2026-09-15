@@ -76,7 +76,7 @@ export const CASE_STEPS = [
 export const ATTORNEYS = [
   { name: "Daniel Cohen", jobTitle: "Founder & CEO" },
   { name: "Moshe Boroosan", jobTitle: "Managing Partner" },
-  { name: "Emanuel Kataev", jobTitle: "General Counsel" },
+  { name: "Jonathan Krikheli", jobTitle: "Attorney" },
 ] as const;
 
 export function jsonLdGraph() {

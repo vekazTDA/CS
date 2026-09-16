@@ -153,29 +153,6 @@
   height: 68px;
 }
 
-.confirmationText {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.confirmationTitle {
-  font-family: var(--font-heading);
-  font-weight: 600;
-  font-size: 22px;
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
-  color: var(--color-accent);
-}
-
-.confirmationBody {
-  font-family: var(--font-body);
-  font-weight: 300;
-  font-size: 14px;
-  line-height: 1.35;
-  color: var(--color-white);
-}
-
 .confirmationAgain {
   flex-shrink: 0;
   height: 45px;

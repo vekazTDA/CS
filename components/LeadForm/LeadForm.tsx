@@ -49,12 +49,6 @@ export default function LeadForm() {
                 height={68}
                 className={styles.confirmationIcon}
               />
-              <div className={styles.confirmationText}>
-                <p className={styles.confirmationTitle}>You&apos;re all set.</p>
-                <p className={styles.confirmationBody}>
-                  Thank you! Our team will get back to you soon.
-                </p>
-              </div>
             </div>
             <button
               type="button"
